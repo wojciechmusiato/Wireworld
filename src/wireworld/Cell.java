@@ -13,6 +13,7 @@ import javax.swing.JButton;
  * @author wojboj
  */
 public class Cell extends JButton {
+    private int neighbours;
     public  int clickNumber;
     private  int row;
     private  int column;
@@ -41,6 +42,7 @@ public class Cell extends JButton {
         setState(state);
         setColor(this);
     }
+
 
     public void setColor(Cell cell) {
         if (cell.state == State.EMPTY) {

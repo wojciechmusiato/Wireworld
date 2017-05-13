@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -24,7 +25,6 @@ public class WireGUI extends JFrame {
 
     private final JPanel menuPanel;
     private final JPanel cellPanel;
-    private final JPanel incellPanel;
     private final JScrollPane scrollPane;
     private final JButton Start = new JButton();
     private final JButton Clear;
@@ -42,15 +42,15 @@ public class WireGUI extends JFrame {
 
         this.add(menuPanel, BorderLayout.WEST);
 
-        incellPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-
-        scrollPane = new JScrollPane(cellPanel);
-
-        this.getContentPane().add(scrollPane);
         menuPanel.setBackground(Color.WHITE);
         cellPanel.setBackground(Color.BLACK);
         CellGrid cellGrid = new CellGrid();
-        cellPanel.add(cellGrid);
+        cellPanel.add(cellGrid,BorderLayout.WEST);
+        scrollPane = new JScrollPane(cellPanel);
+        cellPanel.setPreferredSize(new Dimension(3600,3600));
+        scrollPane.getViewport().setViewPosition(new java.awt.Point(1400,0));
+        //scrollPane.getHorizontalScrollBar().setValue(WIDTH);
+        this.getContentPane().add(scrollPane);
         Clear = new JButton("Wyczyść");
         menuPanel.add(Clear);
         MenuHandler handler = new MenuHandler();
@@ -59,7 +59,7 @@ public class WireGUI extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
+        this.setResizable(true);
     }
 
     private class MenuHandler implements ActionListener {
@@ -72,5 +72,5 @@ public class WireGUI extends JFrame {
             }
         }
     }
-    
+
 }
