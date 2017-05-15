@@ -27,28 +27,16 @@ public class CellGrid extends JPanel implements MouseListener {
 
     public CellGrid() {
         
-        grid = new Cell[width + 2][height + 2];
-        setLayout(new GridLayout(width + 2, height + 2));
-        for (int i = 0; i < width + 2; i++) {
-            for (int j = 0; j < height + 2; j++) {
+        grid = new Cell[width][height];
+        setLayout(new GridLayout(width, height));
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 grid[i][j] = new Cell(i, j);
                 grid[i][j].addMouseListener(this);
                 add(grid[i][j]);
                 grid[i][j].setPreferredSize(new Dimension(14, 14));
 
             }
-        }
-        grid[0][0].setVisible(false);
-        grid[0][height + 1].setVisible(false);
-        grid[width + 1][0].setVisible(false);
-        grid[width  + 1][height + 1].setVisible(false);
-        for (int i = 0; i <= height; i++) {
-            grid[0][i].setVisible(false);
-            grid[width  + 1][i].setVisible(false);
-        }
-        for (int i = 1; i <= width ; i++) {
-            grid[i][0].setVisible(false);
-            grid[i][height + 1].setVisible(false);
         }
 
     }
