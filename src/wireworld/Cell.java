@@ -12,11 +12,11 @@ import javax.swing.JButton;
  *
  * @author wojboj
  */
-public class Cell extends JButton {
+public abstract class Cell {
     private int neighbours;
     public  int clickNumber;
-    private  int row;
-    private  int column;
+    private  int x;
+    private  int y;
     private State state;
 
     public enum State {
@@ -26,25 +26,15 @@ public class Cell extends JButton {
         CONDUCTOR
     }
 
-    public Cell(int column, int row) {
-        super("");
-        setRow(row);
-        setColumn(column);
+    public Cell(int x, int y) {
+        setY(y);
+        setX(x);
         this.state = State.EMPTY;
-        setColor(this);
         clickNumber = 0;
     }
 
-    public Cell(int column, int row, State state) {
-        super("");
-        setRow(row);
-        setColumn(column);
-        setState(state);
-        setColor(this);
-    }
 
-
-    public void setColor(Cell cell) {
+   /* public void setColor(Cell cell) {
         if (cell.state == State.EMPTY) {
             cell.setBackground(Color.BLACK);
             clickNumber = 0;
@@ -59,31 +49,24 @@ public class Cell extends JButton {
             clickNumber = 3;
         }
     }
-    public void setColor(State state){
-       this.state = state;
-       this.setBackground(Color.BLACK);
-    }
-
+*/
     
 
-    public void setState(State state) {
-        this.state = state;
+    public abstract void setState(State state);
+    public abstract void getState();
+    
+    public int getY() {
+        return y;
     }
 
-    public int getRow() {
-        return row;
+    public int getX() {
+        return x;
     }
 
-    public int getColumn() {
-        return column;
+    public void setY(int y) {
+        this.y = y;
     }
 
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public void setColumn(int column) {
-        this.column = column;
-    }
+    public void setX(int x) {};
 
 }
