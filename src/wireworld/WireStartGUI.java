@@ -7,9 +7,6 @@ package wireworld;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static java.lang.Integer.parseInt;
-import static java.lang.Integer.parseInt;
-import static java.lang.Integer.parseInt;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -66,7 +63,7 @@ public class WireStartGUI extends JFrame {
 
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == Generuj) {
-
+                
                 CellGrid.setWidth(Integer.parseInt(heightField.getText()));
                 CellGrid.setHeight(Integer.parseInt(widthField.getText()));
                 new WireGUI();

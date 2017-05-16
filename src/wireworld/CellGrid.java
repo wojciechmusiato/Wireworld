@@ -5,7 +5,6 @@
  */
 package wireworld;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -19,14 +18,12 @@ import wireworld.Cell.State;
  * @author wojboj
  */
 public class CellGrid extends JPanel implements MouseListener {
-
     private static int height;
-    private static int width;
-    private static Cell grid[][];
+    private  static int width;
+    private  static Cell grid[][];
     //ok
 
     public CellGrid() {
-        
         grid = new Cell[width][height];
         setLayout(new GridLayout(width, height));
         for (int i = 0; i < width; i++) {
@@ -42,15 +39,15 @@ public class CellGrid extends JPanel implements MouseListener {
     }
 
     public static void clear() {
-        for (int i = 1; i <= width; i++) {
-            for (int j = 1; j <= height; j++) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 grid[i][j].setColor(State.EMPTY);
                 grid[i][j].clickNumber = 0;
             }
         }
     }
 
-    public static int getHeights() {
+    public  int getHeights() {
         return height;
     }
 
@@ -58,7 +55,7 @@ public class CellGrid extends JPanel implements MouseListener {
         CellGrid.height = height;
     }
 
-    public static int getWidths() {
+    public  int getWidths() {
         return width;
     }
 

@@ -49,7 +49,6 @@ public class WireGUI extends JFrame {
         scrollPane = new JScrollPane(cellPanel);
         cellPanel.setPreferredSize(new Dimension(3600,3600));
         scrollPane.getViewport().setViewPosition(new java.awt.Point(1400,0));
-        //scrollPane.getHorizontalScrollBar().setValue(WIDTH);
         this.getContentPane().add(scrollPane);
         Clear = new JButton("Wyczyść");
         menuPanel.add(Clear);
