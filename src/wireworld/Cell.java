@@ -19,8 +19,8 @@ public class Cell {
 
 
     public Cell(int x, int y) {
-        setY(y);
-        setX(x);
+        this.y=y;
+        this.x=x;
         value = 0;
     }
 

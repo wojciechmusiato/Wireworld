@@ -22,14 +22,14 @@ public class CellGrid {
     private int width;
     private final Cell grid[][];
 
-    public CellGrid(int width, int height) {
+    public CellGrid(int height, int width) {
         this.width= width;
         this.height = height;
         cellgrid = this;
-        grid = new Cell[width][height];
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                grid[i][j] = new Cell(i, j);
+        grid = new Cell[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                grid[i][j] = new Cell(j, i);
             }
         }
     }
@@ -37,8 +37,8 @@ public class CellGrid {
         return cellgrid;
     }
     public void clear() {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 grid[i][j].setValue(0);
             }
         }
@@ -68,10 +68,11 @@ public class CellGrid {
                 break;
             }
         }
-        if (x > grid[x][y].getX()) {
+        if (x > grid[y][x].getX()) {
+            
             throw new ArrayIndexOutOfBoundsException();
         }
-        if (y > grid[x][y].getY()) {
+        if (y > grid[y][x].getY()) {
             throw new ArrayIndexOutOfBoundsException();
         }
         if (x < 0) {
@@ -82,7 +83,7 @@ public class CellGrid {
         }
 
 
-        grid[x][y] = c;
+        grid[y][x] = c;
     }
 
     public int getHeights() {
