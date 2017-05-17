@@ -12,25 +12,16 @@ import javax.swing.JButton;
  *
  * @author wojboj
  */
-public abstract class Cell {
-    private int neighbours;
-    public  int clickNumber;
-    private  int x;
-    private  int y;
-    private State state;
+public class Cell {
+    protected  int value;
+    protected  int x;
+    protected  int y;
 
-    public enum State {
-        EMPTY,
-        ELECTRON_HEAD,
-        ELECTRON_TAIL,
-        CONDUCTOR
-    }
 
     public Cell(int x, int y) {
         setY(y);
         setX(x);
-        this.state = State.EMPTY;
-        clickNumber = 0;
+        value = 0;
     }
 
 
@@ -50,11 +41,12 @@ public abstract class Cell {
         }
     }
 */
-    
-
-    public abstract void setState(State state);
-    public abstract void getState();
-    
+    public  void setValue(int v){
+        this.value = v;
+    }
+    public int getValue(){
+        return value;
+    }
     public int getY() {
         return y;
     }
@@ -67,6 +59,8 @@ public abstract class Cell {
         this.y = y;
     }
 
-    public void setX(int x) {};
+    public void setX(int x) {
+        this.x = x;
+    };
 
 }

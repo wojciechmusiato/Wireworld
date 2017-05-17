@@ -63,10 +63,8 @@ public class WireStartGUI extends JFrame {
 
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == Generuj) {
-                
-                //CellGrid.setWidth(Integer.parseInt(heightField.getText()));
-                //CellGrid.setHeight(Integer.parseInt(widthField.getText()));
-                new WireGUI();
+                CellGrid cellgrid = new CellGrid(Integer.parseInt(heightField.getText()),Integer.parseInt(widthField.getText()));
+                new WireGUI(Integer.parseInt(heightField.getText()),Integer.parseInt(widthField.getText()));
                 setVisible(false);
                 dispose();
             }

@@ -24,20 +24,21 @@ import javax.swing.JScrollPane;
  * @author wojboj
  */
 public class WireGUI extends JFrame {
-
+    private final int width,height;
     private final JPanel menuPanel;
     private final JPanel cellPanel;
     private final JScrollPane scrollPane;
     private final JButton Start = new JButton();
     private final JButton Clear;
-    private final JButton Cell[][];
+    private final JButton CellButton[][];
     private final JPanel cellGrid;
     // private final JButton Stop;
     //private final JButton Edytuj;
 
-    public WireGUI() {
+    public WireGUI(int width, int height) {
         super("Wireworld!");
-
+        this.width= width;
+        this.height = height;
         menuPanel = new JPanel();
         cellPanel = new JPanel();
 
@@ -49,27 +50,26 @@ public class WireGUI extends JFrame {
         menuPanel.setBackground(Color.WHITE);
         cellPanel.setBackground(Color.BLACK);
         cellGrid = new JPanel();
-        cellPanel.add(cellGrid,BorderLayout.WEST);
-        cellGrid.setLayout(new GridLayout(20, 20));
-        
+        cellPanel.add(cellGrid, BorderLayout.WEST);
+        cellGrid.setLayout(new GridLayout(width, height));
         scrollPane = new JScrollPane(cellPanel);
-        cellPanel.setPreferredSize(new Dimension(3600,3600));
-        scrollPane.getViewport().setViewPosition(new java.awt.Point(1400,0));
+        cellPanel.setPreferredSize(new Dimension(3600, 3600));
+        scrollPane.getViewport().setViewPosition(new java.awt.Point(1400, 0));
         this.getContentPane().add(scrollPane);
         Clear = new JButton("Wyczyść");
         menuPanel.add(Clear);
         MenuHandler handler = new MenuHandler();
         MouseHandler mousehandler = new MouseHandler();
         Clear.addActionListener(handler);
-        Cell = new JButton[20][20];
-        cellGrid.setLayout(new GridLayout(20, 20));
-        for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < 20; j++) {
-                Cell[i][j] = new JButton("");
-                Cell[i][j].addMouseListener(mousehandler);
-                cellGrid.add(Cell[i][j]);
-                Cell[i][j].setPreferredSize(new Dimension(14, 14));
-                Cell[i][j].setBackground(Color.BLACK);
+        CellButton = new JButton[width][height];
+        cellGrid.setLayout(new GridLayout(width, height));
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                CellButton[i][j] = new JButton("");
+                CellButton[i][j].addMouseListener(mousehandler);
+                cellGrid.add(CellButton[i][j]);
+                CellButton[i][j].setPreferredSize(new Dimension(14, 14));
+                CellButton[i][j].setBackground(Color.BLACK);
             }
         }
         this.setSize(1000, 800);
@@ -81,30 +81,40 @@ public class WireGUI extends JFrame {
 
     private class MouseHandler implements MouseListener {
 
-
         @Override
         public void mouseClicked(MouseEvent me) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            
+            JButton source = (JButton) me.getSource();
+            if (source.getBackground() == Color.BLACK) {
+                source.setBackground(Color.YELLOW);
+                CellGrid.cellgrid.setCell(source.getX()/14,source.getY()/14,1);
+            } else if (source.getBackground() == Color.YELLOW) {
+                source.setBackground(Color.BLUE);
+                CellGrid.cellgrid.setCell(source.getX()/14,source.getY()/14,2);
+            } else if (source.getBackground() == Color.BLUE) {
+                source.setBackground(Color.RED);
+                CellGrid.cellgrid.setCell(source.getX()/14,source.getY()/14,3);
+            } else {
+                source.setBackground(Color.BLACK);
+                CellGrid.cellgrid.setCell(source.getX()/14,source.getY()/14,0);
+                System.out.println(source.getX());
+            }
         }
 
         @Override
         public void mousePressed(MouseEvent me) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
         @Override
         public void mouseReleased(MouseEvent me) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
         @Override
         public void mouseEntered(MouseEvent me) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
         @Override
         public void mouseExited(MouseEvent me) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     }
 
@@ -114,10 +124,12 @@ public class WireGUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
 
             if (e.getSource() == Clear) {
-                //CellGrid.clear();
+                CellGrid.cellgrid.clear();
+                for(int i = 0; i<CellButton.length;i++)
+                    for(int j = 0;j<CellButton.length;j++)
+                     CellButton[i][j].setBackground(Color.BLACK);
+                    
             }
         }
     }
-    
-
 }
