@@ -63,7 +63,6 @@ public class WireGUI extends JFrame {
         Clear.addActionListener(handler);
         CellButton = new JButton[height][width];
         cellGrid.setLayout(new GridLayout(height, width));
-        System.out.println(width);
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 CellButton[i][j] = new JButton("");

@@ -36,6 +36,9 @@ public class CellGrid {
     public CellGrid getGrid(){
         return cellgrid;
     }
+    public Cell getCell(int y, int x) {
+        return this.grid[y][x];
+    }
     public void clear() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -100,6 +103,10 @@ public class CellGrid {
 
     public void setWidth(int width) {
         this.width = width;
+    }
+
+    void copy(CellGrid basicgrid) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
