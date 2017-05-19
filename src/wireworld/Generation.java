@@ -38,18 +38,18 @@ public class Generation {
                 for (int j = 0; j <this.toreturngrid.getWidths(); j++) {
                     this.toreturngrid.getCell(i, j).setValue(extendedgrid.getCell(i+1, j+1).getValue());
                 }
-            
+            }
         }
   
    
-    public CellGrid generate(CellGrid basicgrid) {
-            extendedgrid.copy(basicgrid);
+        public CellGrid generate(CellGrid basicgrid) {
+          copy(basicgrid);
             
             /* Tu następuje generacja */
-            
+            toreturngrid.setCell(0, 0, 0);
             cut();
             
-            return this.toreturngrid;
+            return toreturngrid;
         }
            
          

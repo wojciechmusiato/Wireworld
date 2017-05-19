@@ -14,9 +14,6 @@ import java.awt.EventQueue;
 public class Wireworld {
 
     public static void main(String[] args) {
-
         new WireStartGUI();
-
     }
-
 }

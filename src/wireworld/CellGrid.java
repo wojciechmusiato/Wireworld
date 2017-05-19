@@ -105,8 +105,12 @@ public class CellGrid {
         this.width = width;
     }
 
-    void copy(CellGrid basicgrid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    void update(CellGrid basicgrid) {
+          for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                grid[i][j]= basicgrid.getCell(i,j);
+            }
+        }
     }
     
 }

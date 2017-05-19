@@ -24,23 +24,32 @@ import javax.swing.JScrollPane;
  * @author wojboj
  */
 public class WireGUI extends JFrame {
-    private final int width,height;
+
+    private final int width, height;
     private final JPanel menuPanel;
     private final JPanel cellPanel;
+    private final Generation generation;
     private final JScrollPane scrollPane;
     private final JButton Start = new JButton();
     private final JButton Clear;
+    private final JButton Generate;
     private final JButton CellButton[][];
-    private final JPanel cellGrid;
+    private final JPanel cellGridPanel;
+    private final WireGUI wireGui;
     // private final JButton Stop;
     //private final JButton Edytuj;
 
-    public WireGUI(int height, int width) {
+    public WireGUI(int height, int width) throws Exception {
         super("Wireworld!");
-        this.width= width;
+        if ((height <= 0) && (width <= 0)) {
+            throw new Exception("Niepoprawne wymiary planszy");
+        }
+        this.wireGui=this;
+        this.width = width;
         this.height = height;
         menuPanel = new JPanel();
         cellPanel = new JPanel();
+        generation = new Generation(CellGrid.cellgrid);
 
         menuPanel.setPreferredSize(new Dimension(200, 800));
         cellPanel.setPreferredSize(new Dimension(800, 800));
@@ -49,25 +58,31 @@ public class WireGUI extends JFrame {
 
         menuPanel.setBackground(Color.WHITE);
         cellPanel.setBackground(Color.BLACK);
-        cellGrid = new JPanel();
-        cellPanel.add(cellGrid, BorderLayout.WEST);
+        cellGridPanel = new JPanel();
+        cellPanel.add(cellGridPanel, BorderLayout.WEST);
 
         scrollPane = new JScrollPane(cellPanel);
         cellPanel.setPreferredSize(new Dimension(3600, 3600));
         scrollPane.getViewport().setViewPosition(new java.awt.Point(1400, 0));
         this.getContentPane().add(scrollPane);
         Clear = new JButton("Wyczyść");
+        Generate = new JButton("Generuj");
+        menuPanel.add(Generate);
         menuPanel.add(Clear);
+
         MenuHandler handler = new MenuHandler();
         MouseHandler mousehandler = new MouseHandler();
         Clear.addActionListener(handler);
+        Generate.addActionListener(handler);
+
+        /* Tworzenie planszy - tablica komorek w GUI */
         CellButton = new JButton[height][width];
-        cellGrid.setLayout(new GridLayout(height, width));
+        cellGridPanel.setLayout(new GridLayout(height, width));
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 CellButton[i][j] = new JButton("");
                 CellButton[i][j].addMouseListener(mousehandler);
-                cellGrid.add(CellButton[i][j]);
+                cellGridPanel.add(CellButton[i][j]);
                 CellButton[i][j].setPreferredSize(new Dimension(14, 14));
                 CellButton[i][j].setBackground(Color.BLACK);
             }
@@ -79,27 +94,49 @@ public class WireGUI extends JFrame {
         this.setResizable(true);
     }
 
+    public void updateCellGridPanel(CellGrid returnedGrid) {
+        int v = 0;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                v = returnedGrid.getCell(i, j).getValue();
+
+                switch (v) {
+                    case (1):
+                        CellButton[i][j].setBackground(Color.YELLOW);
+                    case (2):
+                        CellButton[i][j].setBackground(Color.BLUE);
+                    case(3):
+                        CellButton[i][j].setBackground(Color.RED);
+                    case(0):
+                        CellButton[i][j].setBackground(Color.BLACK);
+                }
+            }
+        }
+    }
+
+    
+
     private class MouseHandler implements MouseListener {
 
         @Override
         public void mouseClicked(MouseEvent me) {
-            
+
             JButton source = (JButton) me.getSource();
             if (source.getBackground() == Color.BLACK) {
                 source.setBackground(Color.YELLOW);
                 System.out.println(source.getX());
-                CellGrid.cellgrid.setCell(source.getX()/14,source.getY()/14,1);
+                CellGrid.cellgrid.setCell(source.getX() / 14, source.getY() / 14, 1);
             } else if (source.getBackground() == Color.YELLOW) {
                 source.setBackground(Color.BLUE);
                 System.out.println(source.getX());
-                CellGrid.cellgrid.setCell(source.getX()/14,source.getY()/14,2);
+                CellGrid.cellgrid.setCell(source.getX() / 14, source.getY() / 14, 2);
             } else if (source.getBackground() == Color.BLUE) {
                 source.setBackground(Color.RED);
                 System.out.println(source.getX());
-                CellGrid.cellgrid.setCell(source.getX()/14,source.getY()/14,3);
+                CellGrid.cellgrid.setCell(source.getX() / 14, source.getY() / 14, 3);
             } else {
                 source.setBackground(Color.BLACK);
-                CellGrid.cellgrid.setCell(source.getX()/14,source.getY()/14,0);
+                CellGrid.cellgrid.setCell(source.getX() / 14, source.getY() / 14, 0);
                 System.out.println(source.getX());
             }
         }
@@ -128,10 +165,16 @@ public class WireGUI extends JFrame {
 
             if (e.getSource() == Clear) {
                 CellGrid.cellgrid.clear();
-                for(int i = 0; i<CellButton.length;i++)
-                    for(int j = 0;j<CellButton[i].length;j++)
-                     CellButton[i][j].setBackground(Color.BLACK);
-                    
+                for (int i = 0; i < CellButton.length; i++) {
+                    for (int j = 0; j < CellButton[i].length; j++) {
+                        CellButton[i][j].setBackground(Color.BLACK);
+                    }
+                }
+                if (e.getSource() == Generate) {
+                    CellGrid.cellgrid.update(generation.generate(CellGrid.cellgrid));
+                    wireGui.updateCellGridPanel(CellGrid.cellgrid);
+                }
+
             }
         }
     }

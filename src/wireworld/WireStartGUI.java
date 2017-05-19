@@ -7,6 +7,8 @@ package wireworld;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -66,7 +68,11 @@ public class WireStartGUI extends JFrame {
                 int h = Integer.parseInt(heightField.getText());
                 int w = Integer.parseInt(widthField.getText());
                 new CellGrid(h,w);
-                new WireGUI(h,w);
+                try {
+                    new WireGUI(h,w);
+                } catch (Exception ex) {
+                    Logger.getLogger(WireStartGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 setVisible(false);
                 dispose();
             }
