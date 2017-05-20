@@ -11,8 +11,8 @@ package wireworld;
  */
 public class Tail extends Cell{
     
-        public Tail(int x, int y){
-        super(x,y);
+        public Tail(int y, int x){
+        super(y,x);
         value = 2;
     }
 }

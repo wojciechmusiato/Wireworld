@@ -10,8 +10,8 @@ package wireworld;
  * @author wojboj
  */
 public class Head extends Cell{
-        public Head(int x, int y){
-        super(x,y);
+        public Head(int y, int x){
+        super(y,x);
         value = 3;
     }
 }

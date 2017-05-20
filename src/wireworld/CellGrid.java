@@ -17,13 +17,14 @@ import javax.swing.JPanel;
  * @author wojboj
  */
 public class CellGrid {
+
     public static CellGrid cellgrid;
     private int height;
     private int width;
     private final Cell grid[][];
 
     public CellGrid(int height, int width) {
-        this.width= width;
+        this.width = width;
         this.height = height;
         cellgrid = this;
         grid = new Cell[height][width];
@@ -33,12 +34,19 @@ public class CellGrid {
             }
         }
     }
-    public CellGrid getGrid(){
+
+    public CellGrid getGrid() {
         return cellgrid;
     }
-    public Cell getCell(int y, int x) {
-        return this.grid[y][x];
+
+    public Cell[][] getCellGrid() {
+        return grid;
     }
+
+    public Cell getCell(int y, int x) {
+            return grid[y][x];
+    }
+
     public void clear() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -47,35 +55,35 @@ public class CellGrid {
         }
     }
 
-    public void setCell(int x, int y, int v) {
+    public void setCell(int y, int x, int v) {
         Cell c;
         switch (v) {
             case 0: {
-                c = new Empty(x,y);
+                c = new Empty(y, x);
                 break;
             }
             case 1: {
-                c = new Conductor(x,y);
+                c = new Conductor(y, x);
                 break;
             }
             case 2: {
-                c = new Tail(x,y);
+                c = new Tail(y, x);
                 break;
             }
             case 3: {
-                c = new Head(x,y);
+                c = new Head(y, x);
                 break;
             }
             default: {
-                c = new Cell(x,y);
+                c = new Cell(y, x);
                 break;
             }
         }
-        if (x > grid[y][x].getX()) {
-            
+        if (x > width) {
+
             throw new ArrayIndexOutOfBoundsException();
         }
-        if (y > grid[y][x].getY()) {
+        if (y > height) {
             throw new ArrayIndexOutOfBoundsException();
         }
         if (x < 0) {
@@ -84,7 +92,6 @@ public class CellGrid {
         if (y < 0) {
             throw new ArrayIndexOutOfBoundsException();
         }
-
 
         grid[y][x] = c;
     }
@@ -106,11 +113,27 @@ public class CellGrid {
     }
 
     void update(CellGrid basicgrid) {
-          for (int i = 0; i < height; i++) {
+        for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                grid[i][j]= basicgrid.getCell(i,j);
+                grid[i][j] = basicgrid.getCell(i, j);
             }
         }
     }
     
+    public int countHeadNeighbours(int y, int x) {
+        int counter = 0;
+        if (getCell(y, x).getValue() == 3) {
+            counter--;
+        }
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; i++) {
+                if (getCell(y + i, x + j).getValue() == 3) {
+                    counter++;
+                }
+            }
+        }
+        return counter;
+
+    }
+
 }

@@ -11,8 +11,8 @@ package wireworld;
  */
 public class Conductor extends Cell{
 
-    public Conductor(int x, int y){
-        super(x,y);
+    public Conductor(int y, int x){
+        super(y,x);
         value = 1;
     }
 } 

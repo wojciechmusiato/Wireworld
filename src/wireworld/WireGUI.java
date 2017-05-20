@@ -124,20 +124,17 @@ public class WireGUI extends JFrame {
             JButton source = (JButton) me.getSource();
             if (source.getBackground() == Color.BLACK) {
                 source.setBackground(Color.YELLOW);
-                System.out.println(source.getX());
                 CellGrid.cellgrid.setCell(source.getX() / 14, source.getY() / 14, 1);
             } else if (source.getBackground() == Color.YELLOW) {
                 source.setBackground(Color.BLUE);
-                System.out.println(source.getX());
                 CellGrid.cellgrid.setCell(source.getX() / 14, source.getY() / 14, 2);
             } else if (source.getBackground() == Color.BLUE) {
                 source.setBackground(Color.RED);
-                System.out.println(source.getX());
                 CellGrid.cellgrid.setCell(source.getX() / 14, source.getY() / 14, 3);
             } else {
                 source.setBackground(Color.BLACK);
                 CellGrid.cellgrid.setCell(source.getX() / 14, source.getY() / 14, 0);
-                System.out.println(source.getX());
+
             }
         }
 
@@ -170,12 +167,14 @@ public class WireGUI extends JFrame {
                         CellButton[i][j].setBackground(Color.BLACK);
                     }
                 }
+            }
                 if (e.getSource() == Generate) {
                     CellGrid.cellgrid.update(generation.generate(CellGrid.cellgrid));
                     wireGui.updateCellGridPanel(CellGrid.cellgrid);
+                    System.out.println("ELLO");
                 }
 
-            }
+            
         }
     }
 }

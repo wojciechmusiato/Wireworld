@@ -18,7 +18,7 @@ public class Cell {
     protected  int y;
 
 
-    public Cell(int x, int y) {
+    public Cell(int y, int x) {
         this.y=y;
         this.x=x;
         value = 0;
