@@ -31,17 +31,24 @@ public class Generation {
                 extendedgrid.setCell(i, j, basicgrid.getCell(i - 1, j - 1).getValue());
             }
         }
-        //Jeszcze boki trzeba dorobić
+        /*Jeszcze boki trzeba dorobić
         extendedgrid.setCell(0, 0, basicgrid.getCell(basicgrid.getHeights() - 1, 0).getValue());
         extendedgrid.setCell(0, extendedgrid.getWidths() - 1, basicgrid.getCell(basicgrid.getHeights() - 1, basicgrid.getWidths() - 1).getValue());
         extendedgrid.setCell(extendedgrid.getHeights() - 1, 0, basicgrid.getCell(0, 0).getValue());
         extendedgrid.setCell(extendedgrid.getHeights() - 1, extendedgrid.getWidths() - 1, basicgrid.getCell(0, basicgrid.getWidths() - 1).getValue());
+        */
     }
 
 
     public CellGrid generate(CellGrid basicgrid) {
         extendedgrid.clear();
         copy(basicgrid);
+           for (int i = 1; i < extendedgrid.getHeights() - 1; i++) {
+            for (int j = 1; j < extendedgrid.getWidths() - 1; j++) {
+                toreturngrid.setCell(i-1, j-1,extendedgrid.getCell(i, j).getValue());
+            }
+           }
+           return toreturngrid; /*
         toreturngrid.clear();
         for (int i = 1; i < extendedgrid.getHeights() - 1; i++) {
             for (int j = 1; j < extendedgrid.getWidths() - 1; j++) {
@@ -62,6 +69,6 @@ public class Generation {
             }
         }
 
-        return toreturngrid;
+        return toreturngrid; */
     }
 }

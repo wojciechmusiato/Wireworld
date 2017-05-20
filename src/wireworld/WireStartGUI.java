@@ -67,7 +67,6 @@ public class WireStartGUI extends JFrame {
             if (e.getSource() == Generuj) {
                 int h = Integer.parseInt(heightField.getText());
                 int w = Integer.parseInt(widthField.getText());
-                new CellGrid(h,w);
                 try {
                     new WireGUI(h,w);
                 } catch (Exception ex) {

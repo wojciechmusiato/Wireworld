@@ -41,6 +41,7 @@ public class WireGUI extends JFrame {
 
     public WireGUI(int height, int width) throws Exception {
         super("Wireworld!");
+        new CellGrid(height,width);
         if ((height <= 0) && (width <= 0)) {
             throw new Exception("Niepoprawne wymiary planszy");
         }
