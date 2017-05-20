@@ -36,6 +36,8 @@ public class WireGUI extends JFrame {
     private final JButton CellButton[][];
     private final JPanel cellGridPanel;
     private final WireGUI wireGui;
+    private final int cellPanelSizeY =800;
+    private final int cellPanelSizeX =800;
     // private final JButton Stop;
     //private final JButton Edytuj;
 
@@ -63,7 +65,7 @@ public class WireGUI extends JFrame {
         cellPanel.add(cellGridPanel, BorderLayout.WEST);
 
         scrollPane = new JScrollPane(cellPanel);
-        cellPanel.setPreferredSize(new Dimension(3600, 3600));
+        cellPanel.setPreferredSize(new Dimension(cellPanelSizeX, cellPanelSizeY));
         scrollPane.getViewport().setViewPosition(new java.awt.Point(1400, 0));
         this.getContentPane().add(scrollPane);
         Clear = new JButton("Wyczyść");
@@ -84,7 +86,7 @@ public class WireGUI extends JFrame {
                 CellButton[i][j] = new JButton("");
                 CellButton[i][j].addMouseListener(mousehandler);
                 cellGridPanel.add(CellButton[i][j]);
-                CellButton[i][j].setPreferredSize(new Dimension(14, 14));
+                CellButton[i][j].setPreferredSize(new Dimension(cellPanelSizeX/(width+2), cellPanelSizeY/(height+2)));
                 CellButton[i][j].setBackground(Color.BLACK);
             }
         }
@@ -131,16 +133,16 @@ public class WireGUI extends JFrame {
             JButton source = (JButton) me.getSource();
             if (source.getBackground() == Color.BLACK) {
                 source.setBackground(Color.YELLOW);
-                CellGrid.cellgrid.setCell(source.getX() / 14, source.getY() / 14, 1);
+                CellGrid.cellgrid.setCell(source.getY() / 14,source.getX() / 14, 1);
             } else if (source.getBackground() == Color.YELLOW) {
                 source.setBackground(Color.BLUE);
-                CellGrid.cellgrid.setCell(source.getX() / 14, source.getY() / 14, 2);
+                CellGrid.cellgrid.setCell(source.getY() / 14, source.getX() / 14, 2);
             } else if (source.getBackground() == Color.BLUE) {
                 source.setBackground(Color.RED);
-                CellGrid.cellgrid.setCell(source.getX() / 14, source.getY() / 14, 3);
+                CellGrid.cellgrid.setCell(source.getY() / 14,source.getX() / 14, 3);
             } else {
                 source.setBackground(Color.BLACK);
-                CellGrid.cellgrid.setCell(source.getX() / 14, source.getY() / 14, 0);
+                CellGrid.cellgrid.setCell(source.getY() / 14, source.getX() / 14, 0);
 
             }
         }
@@ -178,7 +180,6 @@ public class WireGUI extends JFrame {
                 if (e.getSource() == Generate) {
                     CellGrid.cellgrid.update(generation.generate(CellGrid.cellgrid));
                     wireGui.updateCellGridPanel(CellGrid.cellgrid);
-                    System.out.println("ELLO");
                 }
 
             

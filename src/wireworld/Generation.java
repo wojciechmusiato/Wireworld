@@ -31,44 +31,37 @@ public class Generation {
                 extendedgrid.setCell(i, j, basicgrid.getCell(i - 1, j - 1).getValue());
             }
         }
-        /*Jeszcze boki trzeba dorobić
+        
+        
         extendedgrid.setCell(0, 0, basicgrid.getCell(basicgrid.getHeights() - 1, 0).getValue());
         extendedgrid.setCell(0, extendedgrid.getWidths() - 1, basicgrid.getCell(basicgrid.getHeights() - 1, basicgrid.getWidths() - 1).getValue());
         extendedgrid.setCell(extendedgrid.getHeights() - 1, 0, basicgrid.getCell(0, 0).getValue());
         extendedgrid.setCell(extendedgrid.getHeights() - 1, extendedgrid.getWidths() - 1, basicgrid.getCell(0, basicgrid.getWidths() - 1).getValue());
-        */
+
     }
 
 
     public CellGrid generate(CellGrid basicgrid) {
         extendedgrid.clear();
         copy(basicgrid);
-           for (int i = 1; i < extendedgrid.getHeights() - 1; i++) {
-            for (int j = 1; j < extendedgrid.getWidths() - 1; j++) {
-                toreturngrid.setCell(i-1, j-1,extendedgrid.getCell(i, j).getValue());
-            }
-           }
-           return toreturngrid; /*
         toreturngrid.clear();
         for (int i = 1; i < extendedgrid.getHeights() - 1; i++) {
             for (int j = 1; j < extendedgrid.getWidths() - 1; j++) {
-                System.out.println("y = " + (i-1) +" x = " +(j-1) );
                 if (extendedgrid.getCell(i, j).getValue() == 0) {
-                    toreturngrid.setCell(i-1, j-1, 0);
+                    toreturngrid.setCell(i-1, j-1, 0);                          // 3 TO HEAD (RED);  2 TO TAIL (BLUE) ;  1 TO CONDUCTOR (YELLOW)
                 } else if (extendedgrid.getCell(i, j).getValue() == 3) {
                     toreturngrid.setCell(i-1, j-1, 2);
                 } else if (extendedgrid.getCell(i, j).getValue() == 2) {
                     toreturngrid.setCell(i-1, j-1, 1);
-                } else if ((extendedgrid.countHeadNeighbours(i, j) == 2) && (extendedgrid.countHeadNeighbours(i, j) == 1)) {
+                } else if ((extendedgrid.countHeadNeighbours(i, j) == 2) || (extendedgrid.countHeadNeighbours(i, j) == 1)) {
                     toreturngrid.setCell(i-1, j-1, 3);
                 } else {
                     toreturngrid.setCell(i-1, j-1, 1);
-                    System.out.println( "staje sie zolty, wczesniejsza wartosc to" + extendedgrid.getCell(i, j).getValue());
                 }
 
             }
         }
 
-        return toreturngrid; */
+        return toreturngrid;
     }
 }
