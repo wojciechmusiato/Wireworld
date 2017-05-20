@@ -30,7 +30,7 @@ public class CellGrid {
         grid = new Cell[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                grid[i][j] = new Cell(j, i);
+                grid[i][j] = new Cell(i, j);
             }
         }
     }
@@ -126,8 +126,8 @@ public class CellGrid {
             counter--;
         }
         for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; i++) {
-                if (getCell(y + i, x + j).getValue() == 3) {
+            for (int j = 0; j < 3; j++) {
+                if (getCell(y-1 + i, x-1 + j).getValue() == 3) {
                     counter++;
                 }
             }

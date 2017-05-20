@@ -96,19 +96,25 @@ public class WireGUI extends JFrame {
 
     public void updateCellGridPanel(CellGrid returnedGrid) {
         int v = 0;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
+        for (int i = 0; i < returnedGrid.getHeights(); i++) {
+            for (int j = 0; j < returnedGrid.getWidths(); j++) {
                 v = returnedGrid.getCell(i, j).getValue();
 
                 switch (v) {
                     case (1):
                         CellButton[i][j].setBackground(Color.YELLOW);
+                        break;
                     case (2):
                         CellButton[i][j].setBackground(Color.BLUE);
+                        break;
                     case(3):
                         CellButton[i][j].setBackground(Color.RED);
+                        break;
                     case(0):
                         CellButton[i][j].setBackground(Color.BLACK);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
