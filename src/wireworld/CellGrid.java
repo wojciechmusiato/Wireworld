@@ -16,20 +16,28 @@ import javax.swing.JPanel;
  *
  * @author wojboj
  */
-public class CellGrid {
+public class CellGrid{
 
     public static CellGrid cellgrid;
+    public static CellGrid tmpgrid;
     private int height;
     private int width;
-    private final Cell grid[][];
+    private static boolean checker = true;
+    final Cell grid[][];
 
     public CellGrid(int height, int width) {
         this.width = width;
         this.height = height;
-        cellgrid = this;
-        grid = new Cell[height][width];
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
+        if(checker){
+            cellgrid = this;
+            checker=false;
+        }else{
+            tmpgrid = this;
+        }
+   
+        grid = new Cell[height+2][width+2];
+        for (int i = 0; i < height+2; i++) {
+            for (int j = 0; j < width+2; j++) {
                 grid[i][j] = new Cell(i, j);
             }
         }
@@ -48,8 +56,10 @@ public class CellGrid {
     }
 
     public void clear() {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
+        System.out.println(height);
+        System.out.println(width);
+        for (int i = 0; i < height+2; i++) {
+            for (int j = 0; j < width+2; j++) {
                 grid[i][j].setValue(0);
             }
         }
@@ -112,9 +122,9 @@ public class CellGrid {
         this.width = width;
     }
 
-    void update(CellGrid basicgrid) {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
+    public void update(CellGrid basicgrid) {
+        for (int i = 1; i < height+1; i++) {
+            for (int j = 1; j < width+1; j++) {
                 grid[i][j] = basicgrid.getCell(i, j);
             }
         }
