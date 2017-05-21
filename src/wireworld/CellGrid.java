@@ -81,10 +81,10 @@ public class CellGrid {
         }
         if (x > width) {
 
-            throw new ArrayIndexOutOfBoundsException();
+            throw new ArrayIndexOutOfBoundsException("x > width");
         }
         if (y > height) {
-            throw new ArrayIndexOutOfBoundsException();
+            throw new ArrayIndexOutOfBoundsException("y > height");
         }
         if (x < 0) {
             throw new ArrayIndexOutOfBoundsException();
