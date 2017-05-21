@@ -85,6 +85,8 @@ public class WireGUI extends JFrame {
         MouseHandler mousehandler = new MouseHandler();
         Clear.addActionListener(handler);
         Generate.addActionListener(handler);
+        Next.addActionListener(handler);
+        Prev.addActionListener(handler);
 
         /* Tworzenie planszy - tablica komorek w GUI */
         CellButton = new JButton[height + 2][width + 2];
@@ -203,8 +205,15 @@ public class WireGUI extends JFrame {
                 CellGrid.cellgrid.update(generation.generate(CellGrid.cellgrid));
                 wireGui.updateCellGridPanel(CellGrid.cellgrid);
             }
+            if (e.getSource() == Prev) {
+
+                new CellGrid(height, width);
+                generation.Fill(CellGrid.cellgrid);
+                CellGrid.cellgrid.update(generation.generateprev(CellGrid.cellgrid));
+                wireGui.updateCellGridPanel(CellGrid.cellgrid);
+            }
             if (e.getSource() == Generate) {
-                if (startstop) {
+              /* if (startstop) {
                     Generate.setText("Stop");
                     startstop = false;
                     Next.setVisible(false);
@@ -214,7 +223,7 @@ public class WireGUI extends JFrame {
                     startstop = true;
                     Next.setVisible(true);
                     Prev.setVisible(true);
-                }
+                }*/
 
                 new CellGrid(height, width);
                 generation.Fill(CellGrid.cellgrid);

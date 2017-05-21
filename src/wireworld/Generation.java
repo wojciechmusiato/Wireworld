@@ -77,4 +77,26 @@ public class Generation {
 
         return CellGrid.tmpgrid;
     }
+    public CellGrid generateprev(CellGrid basicgrid) {
+
+        CellGrid.tmpgrid.clear();
+        for (int i = 1; i < basicgrid.getHeights() + 1; i++) {
+            for (int j = 1; j < basicgrid.getWidths() + 1; j++) {
+                if (basicgrid.getCell(i, j).getValue() == 0) {
+                    CellGrid.tmpgrid.setCell(i, j, 0);                          // 3 TO HEAD (RED);  2 TO TAIL (BLUE) ;  1 TO CONDUCTOR (YELLOW)
+                } else if (basicgrid.getCell(i, j).getValue() == 3) {
+                    CellGrid.tmpgrid.setCell(i, j, 1);
+                } else if (basicgrid.getCell(i, j).getValue() == 2) {
+                    CellGrid.tmpgrid.setCell(i, j, 3);
+                } else if ((basicgrid.countTailNeighbours(i, j) == 2) || (basicgrid.countTailNeighbours(i, j) == 1) || (basicgrid.countTailNeighbours(i, j) == 3)){
+                    CellGrid.tmpgrid.setCell(i, j, 2);
+                } else {
+                    CellGrid.tmpgrid.setCell(i, j, 1);
+                }
+
+            }
+        }
+
+        return CellGrid.tmpgrid;
+    }
 }
