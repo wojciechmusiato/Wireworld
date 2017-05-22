@@ -152,16 +152,16 @@ public class WireGUI extends JFrame {
             JButton source = (JButton) me.getSource();
             if (source.getBackground() == Color.BLACK) {
                 source.setBackground(Color.YELLOW);
-                CellGrid.cellgrid.setCell(source.getY() / 14, source.getX() / 14, 1);
+                CellGrid.cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 1);
             } else if (source.getBackground() == Color.YELLOW) {
                 source.setBackground(Color.BLUE);
-                CellGrid.cellgrid.setCell(source.getY() / 14, source.getX() / 14, 2);
+                CellGrid.cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 2);
             } else if (source.getBackground() == Color.BLUE) {
                 source.setBackground(Color.RED);
-                CellGrid.cellgrid.setCell(source.getY() / 14, source.getX() / 14, 3);
+                CellGrid.cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 3);
             } else {
                 source.setBackground(Color.BLACK);
-                CellGrid.cellgrid.setCell(source.getY() / 14, source.getX() / 14, 0);
+                CellGrid.cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 0);
 
             }
         }
