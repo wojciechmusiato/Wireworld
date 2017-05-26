@@ -14,12 +14,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 
 /**
  *
@@ -27,6 +31,7 @@ import javax.swing.JScrollPane;
  */
 public class WireGUI extends JFrame {
 
+    int ile;
     private final int cellDimension = 14;
     private final int width, height;
     private final JPanel menuPanel;
@@ -43,12 +48,14 @@ public class WireGUI extends JFrame {
     private final WireGUI wireGui;
     private final int cellPanelSizeY = 3600;
     private final int cellPanelSizeX = 3600;
-    // private final JButton Stop;
+    private final JTextField numOfGen;
+    private JLabel genNumber;
+    private final JButton nextGen;
     //private final JButton Edytuj;
 
     public WireGUI(int height, int width) throws Exception {
         super("Wireworld!");
-        new CellGrid(height, width);
+
         if ((height <= 0) && (width <= 0)) {
             throw new Exception("Niepoprawne wymiary planszy");
         }
@@ -58,6 +65,7 @@ public class WireGUI extends JFrame {
         menuPanel = new JPanel();
         cellPanel = new JPanel();
         generation = new Generation();
+        nextGen = new JButton("Następna");
         Next = new JButton(">");
         Prev = new JButton("<");
         menuPanel.setPreferredSize(new Dimension(200, 800));
@@ -69,7 +77,8 @@ public class WireGUI extends JFrame {
         cellPanel.setBackground(Color.BLACK);
         cellGridPanel = new JPanel();
         cellPanel.add(cellGridPanel, BorderLayout.WEST);
-
+        genNumber = new JLabel("Generacja nr 0");
+        numOfGen = new JTextField("30");
         scrollPane = new JScrollPane(cellPanel);
         cellPanel.setPreferredSize(new Dimension(cellPanelSizeX, cellPanelSizeY));
         scrollPane.getViewport().setViewPosition(new java.awt.Point(1400, 0));
@@ -77,17 +86,21 @@ public class WireGUI extends JFrame {
         Clear = new JButton("Wyczyść");
         Generate = new JButton("Start");
         Generate.setPreferredSize(new Dimension(150, 30));
+        
         menuPanel.add(Clear);
         menuPanel.add(Generate);
+        menuPanel.add(numOfGen);
         menuPanel.add(Prev);
         menuPanel.add(Next);
+        menuPanel.add(genNumber);
+        menuPanel.add(nextGen);
         MenuHandler handler = new MenuHandler();
         MouseHandler mousehandler = new MouseHandler();
         Clear.addActionListener(handler);
         Generate.addActionListener(handler);
         Next.addActionListener(handler);
         Prev.addActionListener(handler);
-
+        nextGen.addActionListener(handler);
         /* Tworzenie planszy - tablica komorek w GUI */
         CellButton = new JButton[height + 2][width + 2];
         cellGridPanel.setLayout(new GridLayout(height + 2, width + 2));
@@ -118,11 +131,12 @@ public class WireGUI extends JFrame {
         this.setResizable(true);
     }
 
-    public void updateCellGridPanel(CellGrid returnedGrid) {
+    public void updateCellGridPanel() {
+        CellGrid cellgrid = (CellGrid) CellGrid.boards.get(CellGrid.count);
         int v = 0;
-        for (int i = 1; i < returnedGrid.getHeights() + 1; i++) {
-            for (int j = 1; j < returnedGrid.getWidths() + 1; j++) {
-                v = returnedGrid.getCell(i, j).getValue();
+        for (int i = 1; i < cellgrid.getHeights() + 1; i++) {
+            for (int j = 1; j < cellgrid.getWidths() + 1; j++) {
+                v = cellgrid.getCell(i, j).getValue();
 
                 switch (v) {
                     case (1):
@@ -148,20 +162,20 @@ public class WireGUI extends JFrame {
 
         @Override
         public void mouseClicked(MouseEvent me) {
-
+            CellGrid cellgrid = (CellGrid) CellGrid.boards.get(CellGrid.count);
             JButton source = (JButton) me.getSource();
             if (source.getBackground() == Color.BLACK) {
                 source.setBackground(Color.YELLOW);
-                CellGrid.cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 1);
+                cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 1);
             } else if (source.getBackground() == Color.YELLOW) {
                 source.setBackground(Color.BLUE);
-                CellGrid.cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 2);
+                cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 2);
             } else if (source.getBackground() == Color.BLUE) {
                 source.setBackground(Color.RED);
-                CellGrid.cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 3);
+                cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 3);
             } else {
                 source.setBackground(Color.BLACK);
-                CellGrid.cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 0);
+                cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 0);
 
             }
         }
@@ -189,50 +203,73 @@ public class WireGUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            CellGrid cellgrid = (CellGrid) CellGrid.boards.get(CellGrid.count);
             if (e.getSource() == Clear) {
-                CellGrid.cellgrid.clear();
-                for (int i = 0; i < CellButton.length; i++) {
-                    for (int j = 0; j < CellButton[i].length; j++) {
-                        CellButton[i][j].setBackground(Color.BLACK);
-                    }
-                }
-            }
-            if (e.getSource() == Next) {
-
-                new CellGrid(height, width);
-                generation.Fill(CellGrid.cellgrid);
-                CellGrid.cellgrid.update(generation.generate(CellGrid.cellgrid));
-                wireGui.updateCellGridPanel(CellGrid.cellgrid);
+                cellgrid.clear();
+                CellGrid.count = 0;
+                wireGui.updateCellGridPanel();
             }
             if (e.getSource() == Prev) {
-
-                new CellGrid(height, width);
-                generation.Fill(CellGrid.cellgrid);
-                CellGrid.cellgrid.update(generation.generateprev(CellGrid.cellgrid));
-                wireGui.updateCellGridPanel(CellGrid.cellgrid);
+                if (CellGrid.count > 0) {
+                    CellGrid.count--;
+                    wireGui.updateCellGridPanel();
+                }
+                System.out.println(CellGrid.count);
             }
+            
+            if (e.getSource() == Next) {
+                if (CellGrid.count < CellGrid.boards.size() - 1) {
+                    CellGrid.count++;
+                }
+                wireGui.updateCellGridPanel();
+            }
+            
+            if (e.getSource() == nextGen) {
+                new CellGrid(height, width);
+                generation.Fill();
+                generation.Generate();
+                wireGui.updateCellGridPanel();
+            }
+            
             if (e.getSource() == Generate) {
-              /* if (startstop) {
+                ile = Integer.parseInt(numOfGen.getText());
+                if (startstop) {
                     Generate.setText("Stop");
                     startstop = false;
                     Next.setVisible(false);
                     Prev.setVisible(false);
+
+                    SwingWorker<Integer, Void> worker
+                            = new SwingWorker<Integer, Void>() {
+
+                        @Override
+                        public Integer doInBackground() throws InterruptedException {
+                            if (!startstop) {
+                                while (ile-- > 0) {
+                                    new CellGrid(height, width);
+                                    generation.Fill();
+                                    generation.Generate();
+                                    wireGui.updateCellGridPanel();
+                                    Thread.sleep(300);
+
+                                }
+                            }
+                            return 1;
+                        }
+
+                    };
+                    worker.execute();
+
                 } else {
                     Generate.setText("Start");
                     startstop = true;
                     Next.setVisible(true);
                     Prev.setVisible(true);
-                }*/
-
-                new CellGrid(height, width);
-                generation.Fill(CellGrid.cellgrid);
-                CellGrid.cellgrid.update(generation.generate(CellGrid.cellgrid));
-                wireGui.updateCellGridPanel(CellGrid.cellgrid);
-
+                }
             }
+
+            
+            genNumber.setText("Generacja nr " + CellGrid.count);
         }
     }
-
 }
-

@@ -35,8 +35,8 @@ public class WireStartGUI extends JFrame {
         openPanel = new JPanel();
         this.add(openPanel);
 
-        heightField = new JTextField("", 5);
-        widthField = new JTextField("", 5);
+        heightField = new JTextField("30", 5);
+        widthField = new JTextField("30", 5);
 
         Label1 = new JLabel("Wybierz szerokość i wysokość planszy:");
         Label2 = new JLabel("Wysokość");
@@ -72,6 +72,7 @@ public class WireStartGUI extends JFrame {
                 } catch (Exception ex) {
                     Logger.getLogger(WireStartGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                new CellGrid(h, w);
                 setVisible(false);
                 dispose();
             }

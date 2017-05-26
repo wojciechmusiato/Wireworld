@@ -6,6 +6,7 @@
 package wireworld;
 
 import java.awt.EventQueue;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -14,6 +15,10 @@ import java.awt.EventQueue;
 public class Wireworld {
 
     public static void main(String[] args) {
-        new WireStartGUI();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new WireStartGUI();
+            }
+        });
     }
 }

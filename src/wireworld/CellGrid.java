@@ -10,41 +10,37 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 
 /**
  *
  * @author wojboj
  */
-public class CellGrid{
+public class CellGrid {
 
-    public static CellGrid cellgrid;
-    public static CellGrid tmpgrid;
+    public static int count = -1;
+    public static ArrayList boards = new ArrayList<CellGrid>();
     private int height;
     private int width;
-    private static boolean checker = true;
     final Cell grid[][];
 
     public CellGrid(int height, int width) {
         this.width = width;
         this.height = height;
-        if(checker){
-            cellgrid = this;
-            checker=false;
-        }else{
-            tmpgrid = this;
-        }
-   
-        grid = new Cell[height+2][width+2];
-        for (int i = 0; i < height+2; i++) {
-            for (int j = 0; j < width+2; j++) {
+        CellGrid.count++;
+        boards.add(this);
+        System.out.println(CellGrid.count);
+        grid = new Cell[height + 2][width + 2];
+        for (int i = 0; i < height + 2; i++) {
+            for (int j = 0; j < width + 2; j++) {
                 grid[i][j] = new Cell(i, j);
             }
         }
     }
 
     public CellGrid getGrid() {
-        return cellgrid;
+        return ((CellGrid) CellGrid.boards.get(CellGrid.count));
     }
 
     public Cell[][] getCellGrid() {
@@ -52,17 +48,19 @@ public class CellGrid{
     }
 
     public Cell getCell(int y, int x) {
-            return grid[y][x];
+        return grid[y][x];
     }
 
     public void clear() {
-        System.out.println(height);
-        System.out.println(width);
-        for (int i = 0; i < height+2; i++) {
-            for (int j = 0; j < width+2; j++) {
-                grid[i][j].setValue(0);
+
+        CellGrid.boards.subList(1, CellGrid.boards.size()).clear();
+        CellGrid cellgrid = (CellGrid) CellGrid.boards.get(0);
+        for (int i = 0; i < height + 2; i++) {
+            for (int j = 0; j < width + 2; j++) {
+                cellgrid.grid[i][j].setValue(0);
             }
         }
+
     }
 
     public void setCell(int y, int x, int v) {
@@ -122,14 +120,14 @@ public class CellGrid{
         this.width = width;
     }
 
-    public void update(CellGrid basicgrid) {
-        for (int i = 1; i < height+1; i++) {
-            for (int j = 1; j < width+1; j++) {
+    public void Update(CellGrid basicgrid) {
+        for (int i = 1; i < height + 1; i++) {
+            for (int j = 1; j < width + 1; j++) {
                 grid[i][j] = basicgrid.getCell(i, j);
             }
         }
     }
-    
+
     public int countHeadNeighbours(int y, int x) {
         int counter = 0;
         if (getCell(y, x).getValue() == 3) {
@@ -137,7 +135,7 @@ public class CellGrid{
         }
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (getCell(y-1 + i, x-1 + j).getValue() == 3) {
+                if (getCell(y - 1 + i, x - 1 + j).getValue() == 3) {
                     counter++;
                 }
             }
@@ -145,14 +143,15 @@ public class CellGrid{
         return counter;
 
     }
-      public int countTailNeighbours(int y, int x) {
+
+    public int countTailNeighbours(int y, int x) {
         int counter = 0;
         if (getCell(y, x).getValue() == 3) {
             counter--;
         }
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (getCell(y-1 + i, x-1 + j).getValue() == 2) {
+                if (getCell(y - 1 + i, x - 1 + j).getValue() == 2) {
                     counter++;
                 }
             }
