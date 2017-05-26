@@ -8,15 +8,11 @@ package wireworld;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,6 +27,7 @@ import javax.swing.SwingWorker;
  */
 public class WireGUI extends JFrame {
 
+    
     int ile;
     private final int cellDimension = 14;
     private final int width, height;
@@ -51,6 +48,7 @@ public class WireGUI extends JFrame {
     private final JTextField numOfGen;
     private JLabel genNumber;
     private final JButton nextGen;
+    private final JButton Stop;
     //private final JButton Edytuj;
 
     public WireGUI(int height, int width) throws Exception {
@@ -68,6 +66,7 @@ public class WireGUI extends JFrame {
         nextGen = new JButton("Następna");
         Next = new JButton(">");
         Prev = new JButton("<");
+        Stop = new JButton("stop");
         menuPanel.setPreferredSize(new Dimension(200, 800));
         cellPanel.setPreferredSize(new Dimension(800, 800));
 
@@ -86,7 +85,7 @@ public class WireGUI extends JFrame {
         Clear = new JButton("Wyczyść");
         Generate = new JButton("Start");
         Generate.setPreferredSize(new Dimension(150, 30));
-        
+
         menuPanel.add(Clear);
         menuPanel.add(Generate);
         menuPanel.add(numOfGen);
@@ -94,6 +93,8 @@ public class WireGUI extends JFrame {
         menuPanel.add(Next);
         menuPanel.add(genNumber);
         menuPanel.add(nextGen);
+        menuPanel.add(Stop);
+        Stop.setEnabled(false);
         MenuHandler handler = new MenuHandler();
         MouseHandler mousehandler = new MouseHandler();
         Clear.addActionListener(handler);
@@ -101,6 +102,7 @@ public class WireGUI extends JFrame {
         Next.addActionListener(handler);
         Prev.addActionListener(handler);
         nextGen.addActionListener(handler);
+        Stop.addActionListener(handler);
         /* Tworzenie planszy - tablica komorek w GUI */
         CellButton = new JButton[height + 2][width + 2];
         cellGridPanel.setLayout(new GridLayout(height + 2, width + 2));
@@ -198,11 +200,12 @@ public class WireGUI extends JFrame {
     }
 
     private class MenuHandler implements ActionListener {
-
+        private Worker worker;
         private boolean startstop = true;
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            worker = new Worker();
             CellGrid cellgrid = (CellGrid) CellGrid.boards.get(CellGrid.count);
             if (e.getSource() == Clear) {
                 cellgrid.clear();
@@ -216,60 +219,67 @@ public class WireGUI extends JFrame {
                 }
                 System.out.println(CellGrid.count);
             }
-            
+
             if (e.getSource() == Next) {
                 if (CellGrid.count < CellGrid.boards.size() - 1) {
                     CellGrid.count++;
                 }
                 wireGui.updateCellGridPanel();
             }
-            
+
             if (e.getSource() == nextGen) {
                 new CellGrid(height, width);
                 generation.Fill();
                 generation.Generate();
                 wireGui.updateCellGridPanel();
             }
-            
-            if (e.getSource() == Generate) {
-                ile = Integer.parseInt(numOfGen.getText());
-                if (startstop) {
-                    Generate.setText("Stop");
-                    startstop = false;
-                    Next.setVisible(false);
-                    Prev.setVisible(false);
+            if (e.getSource() == Stop) {
+                worker.cancel(true);
+                Stop.setEnabled(false);
+                Generate.setEnabled(true);
+                Next.setVisible(true);
+                Prev.setVisible(true);
+                Clear.setEnabled(true);
+                nextGen.setEnabled(true);
 
-                    SwingWorker<Integer, Void> worker
-                            = new SwingWorker<Integer, Void>() {
-
-                        @Override
-                        public Integer doInBackground() throws InterruptedException {
-                            if (!startstop) {
-                                while (ile-- > 0) {
-                                    new CellGrid(height, width);
-                                    generation.Fill();
-                                    generation.Generate();
-                                    wireGui.updateCellGridPanel();
-                                    Thread.sleep(300);
-
-                                }
-                            }
-                            return 1;
-                        }
-
-                    };
-                    worker.execute();
-
-                } else {
-                    Generate.setText("Start");
-                    startstop = true;
-                    Next.setVisible(true);
-                    Prev.setVisible(true);
-                }
             }
 
-            
+            if (e.getSource() == Generate) {
+
+                ile = Integer.parseInt(numOfGen.getText());
+                Stop.setEnabled(true);
+                Generate.setEnabled(false);
+                Clear.setEnabled(false);
+                nextGen.setEnabled(false);
+                startstop = false;
+                Next.setVisible(false);
+                Prev.setVisible(false);
+                worker.execute();
+
+            }
+
             genNumber.setText("Generacja nr " + CellGrid.count);
         }
     }
+
+    class Worker extends SwingWorker<Void, Integer> {
+
+        int counter = 0;
+
+        @Override
+        protected Void doInBackground() throws Exception {
+
+            while (ile-- > 0) {
+                new CellGrid(height, width);
+                generation.Fill();
+                generation.Generate();
+                wireGui.updateCellGridPanel();
+                genNumber.setText("Generacja nr " + CellGrid.count);
+                Thread.sleep(600);
+            }
+            return null;
+        }
+
+    }
+
 }
