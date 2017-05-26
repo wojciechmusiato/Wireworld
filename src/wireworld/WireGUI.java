@@ -205,7 +205,7 @@ public class WireGUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            worker = new Worker();
+            
             CellGrid cellgrid = (CellGrid) CellGrid.boards.get(CellGrid.count);
             if (e.getSource() == Clear) {
                 cellgrid.clear();
@@ -245,7 +245,7 @@ public class WireGUI extends JFrame {
             }
 
             if (e.getSource() == Generate) {
-
+                worker = new Worker();
                 ile = Integer.parseInt(numOfGen.getText());
                 Stop.setEnabled(true);
                 Generate.setEnabled(false);
