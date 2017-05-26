@@ -144,20 +144,6 @@ public class CellGrid {
 
     }
 
-    public int countTailNeighbours(int y, int x) {
-        int counter = 0;
-        if (getCell(y, x).getValue() == 3) {
-            counter--;
-        }
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (getCell(y - 1 + i, x - 1 + j).getValue() == 2) {
-                    counter++;
-                }
-            }
-        }
-        return counter;
-
-    }
+    
 
 }

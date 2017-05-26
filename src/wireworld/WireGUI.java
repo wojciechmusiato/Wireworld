@@ -62,11 +62,17 @@ public class WireGUI extends JFrame {
         this.height = height;
         menuPanel = new JPanel();
         cellPanel = new JPanel();
+        cellGridPanel = new JPanel();
         generation = new Generation();
         nextGen = new JButton("Następna");
         Next = new JButton(">");
         Prev = new JButton("<");
-        Stop = new JButton("stop");
+        Stop = new JButton("   Stop    ");
+        Clear = new JButton(" Wyczyść ");
+        Generate = new JButton("Start");
+        genNumber = new JLabel("Generacja nr 0");
+        numOfGen = new JTextField("30");
+        
         menuPanel.setPreferredSize(new Dimension(200, 800));
         cellPanel.setPreferredSize(new Dimension(800, 800));
 
@@ -74,27 +80,25 @@ public class WireGUI extends JFrame {
 
         menuPanel.setBackground(Color.WHITE);
         cellPanel.setBackground(Color.BLACK);
-        cellGridPanel = new JPanel();
+        
         cellPanel.add(cellGridPanel, BorderLayout.WEST);
-        genNumber = new JLabel("Generacja nr 0");
-        numOfGen = new JTextField("30");
+        
+        
         scrollPane = new JScrollPane(cellPanel);
         cellPanel.setPreferredSize(new Dimension(cellPanelSizeX, cellPanelSizeY));
         scrollPane.getViewport().setViewPosition(new java.awt.Point(1400, 0));
         this.getContentPane().add(scrollPane);
-        Clear = new JButton("Wyczyść");
-        Generate = new JButton("Start");
-        Generate.setPreferredSize(new Dimension(150, 30));
-
+        
         menuPanel.add(Clear);
+        menuPanel.add(Stop);
+        Stop.setEnabled(false);
         menuPanel.add(Generate);
         menuPanel.add(numOfGen);
         menuPanel.add(Prev);
         menuPanel.add(Next);
         menuPanel.add(genNumber);
         menuPanel.add(nextGen);
-        menuPanel.add(Stop);
-        Stop.setEnabled(false);
+        
         MenuHandler handler = new MenuHandler();
         MouseHandler mousehandler = new MouseHandler();
         Clear.addActionListener(handler);
@@ -103,6 +107,7 @@ public class WireGUI extends JFrame {
         Prev.addActionListener(handler);
         nextGen.addActionListener(handler);
         Stop.addActionListener(handler);
+        
         /* Tworzenie planszy - tablica komorek w GUI */
         CellButton = new JButton[height + 2][width + 2];
         cellGridPanel.setLayout(new GridLayout(height + 2, width + 2));
