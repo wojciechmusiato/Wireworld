@@ -256,7 +256,7 @@ public class WireGUI extends JFrame {
                 CellGrid cellgrid = (CellGrid) CellGrid.boards.get(CellGrid.count);
                 JButton source = (JButton) me.getSource();
                 source.setBackground(Color.BLACK);
-                cellgrid.setCell(source.getY() / cellDimension, source.getY() / cellDimension, 0);
+                cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 0);
                 
             }
         }
