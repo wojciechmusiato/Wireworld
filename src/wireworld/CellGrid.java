@@ -5,13 +5,7 @@
  */
 package wireworld;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import javax.swing.JPanel;
 
 /**
  *

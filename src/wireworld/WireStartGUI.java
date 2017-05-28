@@ -7,9 +7,11 @@ package wireworld;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +31,8 @@ public class WireStartGUI extends JFrame {
     private final JLabel Label2;
     private final JLabel Label3;
     private final JButton wczytaj;
+    private final JFileChooser Chooser = new JFileChooser();
+
     public WireStartGUI() {
         super("Wireworld");
 
@@ -42,6 +46,7 @@ public class WireStartGUI extends JFrame {
         Label2 = new JLabel("Wysokość");
         Label3 = new JLabel("Szerokość");
 
+
         openPanel.add(Label1);
         openPanel.add(Label2);
         openPanel.add(heightField);
@@ -54,6 +59,7 @@ public class WireStartGUI extends JFrame {
         openPanel.add(wczytaj);
         ListenForButton lForButton = new ListenForButton();
         Generuj.addActionListener(lForButton);
+        wczytaj.addActionListener(lForButton);
         this.setSize(300, 120);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -63,18 +69,29 @@ public class WireStartGUI extends JFrame {
 
     private class ListenForButton implements ActionListener {
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == Generuj) {
                 int h = Integer.parseInt(heightField.getText());
                 int w = Integer.parseInt(widthField.getText());
                 try {
-                    new WireGUI(h,w);
+                    new WireGUI(h, w);
                 } catch (Exception ex) {
                     Logger.getLogger(WireStartGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 new CellGrid(h, w);
                 setVisible(false);
                 dispose();
+            } 
+            if(wczytaj == e.getSource()){
+                System.out.println("chuj");
+                Chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+                int result = Chooser.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = Chooser.getSelectedFile();
+                    System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+                }
+
             }
         }
     }
