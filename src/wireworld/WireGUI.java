@@ -13,6 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -58,6 +61,8 @@ public class WireGUI extends JFrame {
     private final JRadioButton diagonalWire;
     private final JRadioButton horizontalWire;
     private final JCheckBox Orientation;
+    private final JRadioButton ORgate;
+    public final JButton Save;
 
     public WireGUI(int height, int width) throws Exception {
         super("Wireworld!");
@@ -86,7 +91,8 @@ public class WireGUI extends JFrame {
         diagonalWire = new JRadioButton("Kabel2");
         singleCell = new JRadioButton("Komórka");
         Eraser = new JRadioButton("Gumka");
-
+        Save = new JButton("Zapisz");
+        ORgate = new JRadioButton("OR gate");
         Orientation = new JCheckBox("Wstaw Pionowo");
         menuPanel.setPreferredSize(new Dimension(200, 800));
         cellPanel.setPreferredSize(new Dimension(800, 800));
@@ -119,6 +125,8 @@ public class WireGUI extends JFrame {
         menuPanel.add(singleCell);
         menuPanel.add(Orientation);
         menuPanel.add(Eraser);
+        menuPanel.add(Save);
+        menuPanel.add(ORgate);
         ButtonGroup group = new ButtonGroup();
         group.add(Diode1);
         group.add(horizontalWire);
@@ -126,6 +134,7 @@ public class WireGUI extends JFrame {
         group.add(diagonalWire);
         group.add(singleCell);
         group.add(Eraser);
+        group.add(ORgate);
         MenuHandler handler = new MenuHandler();
         MouseHandler mousehandler = new MouseHandler();
         Clear.addActionListener(handler);
@@ -135,7 +144,8 @@ public class WireGUI extends JFrame {
         nextGen.addActionListener(handler);
         Stop.addActionListener(handler);
         Orientation.addActionListener(handler);
-
+        Save.addActionListener(handler);
+        ORgate.addActionListener(handler);
         /* Tworzenie planszy - tablica komorek w GUI */
         CellButton = new JButton[height + 2][width + 2];
         cellGridPanel.setLayout(new GridLayout(height + 2, width + 2));
@@ -237,7 +247,9 @@ public class WireGUI extends JFrame {
                 wireFactory.getWire("horizontalWire", source, orientation);
             } else if (diagonalWire.isSelected()) {
                 wireFactory.getWire("diagonalWire", source, orientation);
-            } else {
+            } else if (ORgate.isSelected()) {
+                wireFactory.getWire("ORgate", source, orientation);
+            }else{
                 wireFactory.getWire("SingleCell", source, orientation);
             }
         }
@@ -324,6 +336,14 @@ public class WireGUI extends JFrame {
                 Prev.setVisible(false);
                 worker.execute();
 
+            }
+              if (e.getSource() == Save) {
+                GridSaveRead save = new GridSaveRead();
+                try {
+                    save.Save();
+                } catch (IOException ex) {
+                    Logger.getLogger(WireGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
             genNumber.setText("Generacja nr " + CellGrid.count);

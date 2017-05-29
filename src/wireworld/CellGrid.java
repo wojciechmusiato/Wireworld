@@ -5,13 +5,14 @@
  */
 package wireworld;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author wojboj
  */
-public class CellGrid {
+public class CellGrid implements Serializable{
 
     public static int count = -1;
     public static ArrayList boards = new ArrayList<CellGrid>();
