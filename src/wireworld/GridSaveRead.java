@@ -20,7 +20,6 @@ import static wireworld.CellGrid.boards;
  */
 public class GridSaveRead implements Serializable {
 
-    private final JFileChooser Saver = new JFileChooser();
 
     public GridSaveRead() {
 
@@ -49,13 +48,14 @@ public class GridSaveRead implements Serializable {
 
     public boolean Read() throws FileNotFoundException, IOException, ClassNotFoundException, Exception {
         boolean goodFile = false;
+        JFileChooser fileChooser = new JFileChooser();
         File f = new File(new File(".").getCanonicalPath());
-        WireStartGUI.startGUI.Chooser.setCurrentDirectory(f);
-        int result = WireStartGUI.startGUI.Chooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
+        fileChooser.setCurrentDirectory(f);
+        int result = fileChooser.showOpenDialog(null);
+        if (result == fileChooser.APPROVE_OPTION) {
             CellGrid loadedGrid = null;
             try {
-                File selectedFile = WireStartGUI.startGUI.Chooser.getSelectedFile();
+                File selectedFile = fileChooser.getSelectedFile();
                 FileInputStream inputFileStream = new FileInputStream(selectedFile);
                 ObjectInputStream objectInputStream = new ObjectInputStream(inputFileStream);
                 loadedGrid = (CellGrid) objectInputStream.readObject();

@@ -3,12 +3,10 @@ package GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,7 +30,6 @@ public class WireStartGUI extends JFrame {
     private final JLabel Label2;
     private final JLabel Label3;
     private final JButton wczytaj;
-    public final JFileChooser Chooser = new JFileChooser();
 
     public WireStartGUI() {
         super("Wireworld");
