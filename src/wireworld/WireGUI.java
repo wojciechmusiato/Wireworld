@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -35,7 +36,7 @@ public class WireGUI extends JFrame {
 
     public static WireGUI wireGUI;
     int ile;
-    public final int cellDimension = 14;
+    public int cellDimension = 14;
     public final int width, height;
     private final JPanel menuPanel;
     private final JPanel cellPanel;
@@ -63,16 +64,16 @@ public class WireGUI extends JFrame {
     private final JCheckBox Orientation;
     private final JRadioButton ORgate;
     public final JButton Save;
-
+    
     public WireGUI(int height, int width) throws Exception {
         super("Wireworld!");
+        
 
-        if ((height <= 0) && (width <= 0)) {
-            throw new Exception("Niepoprawne wymiary planszy");
-        }
         WireGUI.wireGUI = this;
         this.width = width;
         this.height = height;
+        if(width>100||height>100) cellDimension=10;
+        if (width>150||height>150)cellDimension=9;
         menuPanel = new JPanel();
         cellPanel = new JPanel();
         cellGridPanel = new JPanel();
@@ -96,7 +97,7 @@ public class WireGUI extends JFrame {
         Orientation = new JCheckBox("Wstaw Pionowo");
         menuPanel.setPreferredSize(new Dimension(200, 800));
         cellPanel.setPreferredSize(new Dimension(800, 800));
-
+        
         this.add(menuPanel, BorderLayout.WEST);
 
         menuPanel.setBackground(Color.WHITE);
@@ -176,6 +177,8 @@ public class WireGUI extends JFrame {
         this.setResizable(true);
     }
 
+       
+   
     public void updateCellGridPanel() {
         CellGrid cellgrid = (CellGrid) CellGrid.boards.get(CellGrid.count);
         int v = 0;
@@ -277,7 +280,23 @@ public class WireGUI extends JFrame {
         public void mouseExited(MouseEvent me) {
         }
     }
-
+    public void saveWindow(){
+        
+        JFrame fr = new JFrame("Zapisz jako..");
+        fr.setSize(new Dimension(400,60));
+        JLabel lab = new JLabel(".ser");
+        JTextField box = new JTextField("nazwa",10);
+        box.setSize(200,100);
+        JButton zapisz = new JButton("Zapisz");
+        zapisz.setSize(100,40);
+        JPanel panel = new JPanel();
+     panel.add( zapisz,BorderLayout.SOUTH);
+  
+        panel.add(box,BorderLayout.NORTH);
+        fr.add(panel,BorderLayout.CENTER);
+           panel.add(lab,BorderLayout.EAST);
+        fr.setVisible(true);
+    }
     private class MenuHandler implements ActionListener {
 
         private Worker worker;
@@ -301,6 +320,7 @@ public class WireGUI extends JFrame {
             }
 
             if (e.getSource() == Next) {
+                
                 if (CellGrid.count < CellGrid.boards.size() - 1) {
                     CellGrid.count++;
                 }
@@ -338,6 +358,7 @@ public class WireGUI extends JFrame {
 
             }
               if (e.getSource() == Save) {
+                  saveWindow();
                 GridSaveRead save = new GridSaveRead();
                 try {
                     save.Save();

@@ -8,12 +8,14 @@ package wireworld;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -67,33 +69,69 @@ public class WireStartGUI extends JFrame {
         this.setResizable(false);
     }
 
+    public void Popup(String message) {
+        JFrame frame;
+        frame = new JFrame("Info");
+        JOptionPane.showMessageDialog(frame, message);
+    }
+
     private class ListenForButton implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            int h = Integer.parseInt(heightField.getText());
-            int w = Integer.parseInt(widthField.getText());
+            int h = 251;
+            int w = 251;
+            try {
+                h = Integer.parseInt(heightField.getText());
+                w = Integer.parseInt(widthField.getText());
+            } catch (Exception ex) {
+                Popup("Nie wiem co tam wpisałeś ale to na pewno nie liczby kurwa");
+            }
             if (e.getSource() == Generuj) {
+                if (h > 251 || w > 251) {
+                    Popup("Wymiary za duże! Żaden wymiar nie może przekraczać 250");
+                } else if (h < 0 || w < 0) {
+                    Popup("Ujemne wymiary? Kto to o czymś takim słyszał debilu");
+                } else if (h == 0 || w == 0) {
+                    Popup("Tak powodzenia z zerową wysokością lub szerokością idioto");
+                } else if (h < 10 || w < 10) {
+                    Popup("Oba rozmiary planszy powinny mieścić się w zakresie 10-250");
+                } else if (h > 9 && h < 251 && w > 9 && w < 251) {
 
-                try {
-                    new WireGUI(h, w);
-                } catch (Exception ex) {
-                    Logger.getLogger(WireStartGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    try {
+                        new WireGUI(h, w);
+                    } catch (Exception ex) {
+                        Logger.getLogger(WireStartGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    new CellGrid(h, w);
+
+                    setVisible(false);
+                    dispose();
+                } else {
+
                 }
-                new CellGrid(h, w);
-                setVisible(false);
-                dispose();
             }
             if (wczytaj == e.getSource()) {
                 GridSaveRead saveread = new GridSaveRead();
-                saveread.Read();
                 try {
-                    new WireGUI(h, w);
+                    if(saveread.Read()){
+                        setVisible(false);
+                        dispose();
+                    }
+
+                } catch (IOException ex) {
+                    Logger.getLogger(WireStartGUI.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(WireStartGUI.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception ex) {
-                    Logger.getLogger(WireStartGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(WireStartGUI.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
-                setVisible(false);
-                dispose();
+                
+                
 
             }
         }

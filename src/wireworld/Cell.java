@@ -6,13 +6,14 @@
 package wireworld;
 
 import java.awt.Color;
+import java.io.Serializable;
 import javax.swing.JButton;
 
 /**
  *
  * @author wojboj
  */
-public class Cell {
+public class Cell implements Serializable{
     protected  int value;
     protected  int x;
     protected  int y;

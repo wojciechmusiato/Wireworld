@@ -16,8 +16,8 @@ public class CellGrid implements Serializable{
 
     public static int count = -1;
     public static ArrayList boards = new ArrayList<CellGrid>();
-    private int height;
-    private int width;
+     int height;
+     int width;
     final Cell grid[][];
 
     public CellGrid(int height, int width) {

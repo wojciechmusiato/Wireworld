@@ -6,7 +6,6 @@
 package wireworld;
 
 import javax.swing.JButton;
-import static wireworld.ClickWires.cellDim;
 import static wireworld.ClickWires.h;
 import static wireworld.ClickWires.w;
 
@@ -20,8 +19,8 @@ public class Diode2 implements ClickWires {
         int i, j;
 
         CellGrid cellgrid = (CellGrid) CellGrid.boards.get(CellGrid.count);
-        int y = source.getY() / cellDim;
-        int x = source.getX() / cellDim;
+        int y = source.getY() /     WireGUI.wireGUI.cellDimension;;
+        int x = source.getX() /     WireGUI.wireGUI.cellDimension;;
 
         if (orientation) {                                                      //poziomo
             for (i = 0; i < 10; i++) {                                          //wstawiam 10 przewodnikow 

@@ -13,7 +13,7 @@ import javax.swing.JButton;
  * @author wojboj
  */
 public interface ClickWires{
-    int cellDim = WireGUI.wireGUI.cellDimension;
+    
     int h = WireGUI.wireGUI.height;
     int w = WireGUI.wireGUI.width;
     void put(JButton source,boolean orientation);

@@ -17,8 +17,8 @@ class DiagonalWire implements ClickWires {
     public void put(JButton source, boolean orientation) {
         int i;
         CellGrid cellgrid = (CellGrid) CellGrid.boards.get(CellGrid.count);
-        int y = source.getY() / cellDim;
-        int x = source.getX() / cellDim;
+        int y = source.getY() /     WireGUI.wireGUI.cellDimension;;
+        int x = source.getX() /     WireGUI.wireGUI.cellDimension;;
 
         if (orientation) {
             for (i = 0; i < 6; i++) {                                           //dodanie sześciu przewodnikow+4, żeby zrobić diodę
