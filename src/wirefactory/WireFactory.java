@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package wireworld;
+
+package wirefactory;
 
 import javax.swing.JButton;
 
@@ -23,13 +19,13 @@ public class WireFactory {
         } else if (wireType.equalsIgnoreCase("HorizontalWire")) {
             HorizontalWire w1 = new HorizontalWire();
             w1.put(me, orientation);
-        } else if(wireType.equalsIgnoreCase("DiagonalWire")) {
+        } else if (wireType.equalsIgnoreCase("DiagonalWire")) {
             DiagonalWire w2 = new DiagonalWire();
             w2.put(me, orientation);
-        }else if(wireType.equalsIgnoreCase("ORgate")) {
+        } else if (wireType.equalsIgnoreCase("ORgate")) {
             ORgate g1 = new ORgate();
             g1.put(me, orientation);
-        }else{
+        } else {
             SingleCell singleCell = new SingleCell();
             singleCell.put(me, orientation);
         }

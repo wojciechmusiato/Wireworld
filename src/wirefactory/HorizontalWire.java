@@ -1,6 +1,9 @@
-package wireworld;
+package wirefactory;
 
+import wirefactory.ClickWires;
+import GUI.WireGUI;
 import javax.swing.JButton;
+import wireworld.CellGrid;
 
 /**
  *

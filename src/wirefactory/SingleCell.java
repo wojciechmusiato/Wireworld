@@ -1,12 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package wireworld;
 
+package wirefactory;
+
+import GUI.WireGUI;
 import java.awt.Color;
 import javax.swing.JButton;
+import wireworld.CellGrid;
 
 /**
  *

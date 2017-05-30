@@ -1,5 +1,5 @@
 
-package wireworld;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -22,6 +22,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
+import wireworld.CellGrid;
+import wireworld.Generation;
+import wireworld.GridSaveRead;
+import wirefactory.WireFactory;
 
 /**
  *
@@ -47,7 +51,7 @@ public class WireGUI extends JFrame {
     private final int cellPanelSizeY = 3600;
     private final int cellPanelSizeX = 3600;
     private final JTextField numOfGen;
-    private JLabel genNumber;
+    private final JLabel genNumber;
     private final JButton nextGen;
     private final JButton Stop;
     private final JRadioButton Diode1;

@@ -1,10 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package wireworld;
 
+import GUI.WireGUI;
+import GUI.WireStartGUI;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,7 +11,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import static wireworld.CellGrid.boards;
 
@@ -31,7 +28,6 @@ public class GridSaveRead implements Serializable {
 
     public void Save() throws FileNotFoundException, IOException {
         CellGrid cells = (CellGrid) CellGrid.boards.get(CellGrid.count);
- 
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Zapisz obecną generację");
@@ -40,7 +36,7 @@ public class GridSaveRead implements Serializable {
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File saveFile = fileChooser.getSelectedFile();
-            FileOutputStream fout = new FileOutputStream(saveFile+".ser");
+            FileOutputStream fout = new FileOutputStream(saveFile + ".ser");
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(cells);
             oos.close();
@@ -61,7 +57,6 @@ public class GridSaveRead implements Serializable {
                 FileInputStream inputFileStream = new FileInputStream(selectedFile);
                 ObjectInputStream objectInputStream = new ObjectInputStream(inputFileStream);
                 loadedGrid = (CellGrid) objectInputStream.readObject();
-
                 objectInputStream.close();
                 inputFileStream.close();
             } catch (java.io.StreamCorruptedException ex) {
