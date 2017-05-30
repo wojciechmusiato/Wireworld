@@ -37,7 +37,7 @@ public class GridSaveRead implements Serializable {
         oos.writeObject(cells);
         oos.close();
         fout.close();
-        WireStartGUI.startGUI.Popup("wypierdalaj xdddddf");
+        WireStartGUI.startGUI.Popup("Zapisano plik");
 
     }
 

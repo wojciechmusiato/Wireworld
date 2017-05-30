@@ -85,15 +85,15 @@ public class WireStartGUI extends JFrame {
                 h = Integer.parseInt(heightField.getText());
                 w = Integer.parseInt(widthField.getText());
             } catch (Exception ex) {
-                Popup("Nie wiem co tam wpisałeś ale to na pewno nie liczby kurwa");
+                Popup("Nie wiem co tam wpisałeś ale to na pewno nie liczby ");
             }
             if (e.getSource() == Generuj) {
                 if (h > 251 || w > 251) {
                     Popup("Wymiary za duże! Żaden wymiar nie może przekraczać 250");
                 } else if (h < 0 || w < 0) {
-                    Popup("Ujemne wymiary? Kto to o czymś takim słyszał debilu");
+                    Popup("Ujemne wymiary? Kto to o czymś takim słyszał ");
                 } else if (h == 0 || w == 0) {
-                    Popup("Tak powodzenia z zerową wysokością lub szerokością idioto");
+                    Popup("Tak powodzenia z zerową wysokością lub szerokością ");
                 } else if (h < 10 || w < 10) {
                     Popup("Oba rozmiary planszy powinny mieścić się w zakresie 10-250");
                 } else if (h > 9 && h < 251 && w > 9 && w < 251) {

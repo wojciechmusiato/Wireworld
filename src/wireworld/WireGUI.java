@@ -64,16 +64,19 @@ public class WireGUI extends JFrame {
     private final JCheckBox Orientation;
     private final JRadioButton ORgate;
     public final JButton Save;
-    
+
     public WireGUI(int height, int width) throws Exception {
         super("Wireworld!");
-        
 
         WireGUI.wireGUI = this;
         this.width = width;
         this.height = height;
-        if(width>100||height>100) cellDimension=10;
-        if (width>150||height>150)cellDimension=9;
+        if (width > 100 || height > 100) {
+            cellDimension = 10;
+        }
+        if (width > 150 || height > 150) {
+            cellDimension = 9;
+        }
         menuPanel = new JPanel();
         cellPanel = new JPanel();
         cellGridPanel = new JPanel();
@@ -97,7 +100,7 @@ public class WireGUI extends JFrame {
         Orientation = new JCheckBox("Wstaw Pionowo");
         menuPanel.setPreferredSize(new Dimension(200, 800));
         cellPanel.setPreferredSize(new Dimension(800, 800));
-        
+
         this.add(menuPanel, BorderLayout.WEST);
 
         menuPanel.setBackground(Color.WHITE);
@@ -111,6 +114,7 @@ public class WireGUI extends JFrame {
         this.getContentPane().add(scrollPane);
 
         menuPanel.add(Clear);
+        Clear.setPreferredSize(new Dimension(200, 30));
         menuPanel.add(Stop);
         Stop.setEnabled(false);
         menuPanel.add(Generate);
@@ -119,15 +123,17 @@ public class WireGUI extends JFrame {
         menuPanel.add(Next);
         menuPanel.add(genNumber);
         menuPanel.add(nextGen);
+        nextGen.setPreferredSize(new Dimension(200, 30));
         menuPanel.add(horizontalWire);
         menuPanel.add(Diode1);
         menuPanel.add(Diode2);
         menuPanel.add(diagonalWire);
         menuPanel.add(singleCell);
-        menuPanel.add(Orientation);
         menuPanel.add(Eraser);
-        menuPanel.add(Save);
         menuPanel.add(ORgate);
+        menuPanel.add(Orientation);
+        menuPanel.add(Save, BorderLayout.SOUTH);
+        Save.setPreferredSize(new Dimension(200, 30));
         ButtonGroup group = new ButtonGroup();
         group.add(Diode1);
         group.add(horizontalWire);
@@ -177,8 +183,6 @@ public class WireGUI extends JFrame {
         this.setResizable(true);
     }
 
-       
-   
     public void updateCellGridPanel() {
         CellGrid cellgrid = (CellGrid) CellGrid.boards.get(CellGrid.count);
         int v = 0;
@@ -252,7 +256,7 @@ public class WireGUI extends JFrame {
                 wireFactory.getWire("diagonalWire", source, orientation);
             } else if (ORgate.isSelected()) {
                 wireFactory.getWire("ORgate", source, orientation);
-            }else{
+            } else {
                 wireFactory.getWire("SingleCell", source, orientation);
             }
         }
@@ -267,12 +271,12 @@ public class WireGUI extends JFrame {
 
         @Override
         public void mouseEntered(MouseEvent me) {
-            if(Eraser.isSelected()){
+            if (Eraser.isSelected()) {
                 CellGrid cellgrid = (CellGrid) CellGrid.boards.get(CellGrid.count);
                 JButton source = (JButton) me.getSource();
                 source.setBackground(Color.BLACK);
                 cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 0);
-                
+
             }
         }
 
@@ -280,23 +284,25 @@ public class WireGUI extends JFrame {
         public void mouseExited(MouseEvent me) {
         }
     }
-    public void saveWindow(){
-        
+
+    public void saveWindow() {
+
         JFrame fr = new JFrame("Zapisz jako..");
-        fr.setSize(new Dimension(400,60));
+        fr.setSize(new Dimension(400, 60));
         JLabel lab = new JLabel(".ser");
-        JTextField box = new JTextField("nazwa",10);
-        box.setSize(200,100);
+        JTextField box = new JTextField("nazwa", 10);
+        box.setSize(200, 100);
         JButton zapisz = new JButton("Zapisz");
-        zapisz.setSize(100,40);
+        zapisz.setSize(100, 40);
         JPanel panel = new JPanel();
-     panel.add( zapisz,BorderLayout.SOUTH);
-  
-        panel.add(box,BorderLayout.NORTH);
-        fr.add(panel,BorderLayout.CENTER);
-           panel.add(lab,BorderLayout.EAST);
+        panel.add(zapisz, BorderLayout.SOUTH);
+
+        panel.add(box, BorderLayout.NORTH);
+        fr.add(panel, BorderLayout.CENTER);
+        panel.add(lab, BorderLayout.EAST);
         fr.setVisible(true);
     }
+
     private class MenuHandler implements ActionListener {
 
         private Worker worker;
@@ -320,7 +326,7 @@ public class WireGUI extends JFrame {
             }
 
             if (e.getSource() == Next) {
-                
+
                 if (CellGrid.count < CellGrid.boards.size() - 1) {
                     CellGrid.count++;
                 }
@@ -346,19 +352,28 @@ public class WireGUI extends JFrame {
 
             if (e.getSource() == Generate) {
                 worker = new Worker();
-                ile = Integer.parseInt(numOfGen.getText());
-                Stop.setEnabled(true);
-                Generate.setEnabled(false);
-                Clear.setEnabled(false);
-                nextGen.setEnabled(false);
-                startstop = false;
-                Next.setVisible(false);
-                Prev.setVisible(false);
-                worker.execute();
-
+                try {
+                    ile = Integer.parseInt(numOfGen.getText());
+                } catch (Exception ex) {
+                    WireStartGUI.startGUI.Popup("Błąd, wpisz dodatnią liczbę ");
+                }
+                if (ile < 1) {
+                    WireStartGUI.startGUI.Popup("Błąd, wpisz dodatnią liczbę");
+                } else {
+                    Stop.setEnabled(true);
+                    Generate.setEnabled(false);
+                    Clear.setEnabled(false);
+                    nextGen.setEnabled(false);
+                    startstop = false;
+                    Next.setVisible(false);
+                    Prev.setVisible(false);
+                    worker.execute();
+                }
             }
-              if (e.getSource() == Save) {
-                  saveWindow();
+
+            if (e.getSource()
+                    == Save) {
+                saveWindow();
                 GridSaveRead save = new GridSaveRead();
                 try {
                     save.Save();
@@ -367,7 +382,8 @@ public class WireGUI extends JFrame {
                 }
             }
 
-            genNumber.setText("Generacja nr " + CellGrid.count);
+            genNumber.setText(
+                    "Generacja nr " + CellGrid.count);
         }
     }
 
