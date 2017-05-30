@@ -31,14 +31,22 @@ public class GridSaveRead implements Serializable {
 
     public void Save() throws FileNotFoundException, IOException {
         CellGrid cells = (CellGrid) CellGrid.boards.get(CellGrid.count);
+ 
 
-        FileOutputStream fout = new FileOutputStream("bork.ser");
-        ObjectOutputStream oos = new ObjectOutputStream(fout);
-        oos.writeObject(cells);
-        oos.close();
-        fout.close();
-        WireStartGUI.startGUI.Popup("Zapisano plik");
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Zapisz obecną generację");
 
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File saveFile = fileChooser.getSelectedFile();
+            FileOutputStream fout = new FileOutputStream(saveFile+".ser");
+            ObjectOutputStream oos = new ObjectOutputStream(fout);
+            oos.writeObject(cells);
+            oos.close();
+            fout.close();
+
+        }
     }
 
     public boolean Read() throws FileNotFoundException, IOException, ClassNotFoundException, Exception {
@@ -47,23 +55,23 @@ public class GridSaveRead implements Serializable {
         int result = WireStartGUI.startGUI.Chooser.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
             CellGrid loadedGrid = null;
-            try{
-            File selectedFile = WireStartGUI.startGUI.Chooser.getSelectedFile();
-            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-            FileInputStream inputFileStream = new FileInputStream(selectedFile);
-            ObjectInputStream objectInputStream = new ObjectInputStream(inputFileStream);
-            loadedGrid = (CellGrid) objectInputStream.readObject();
-         
-            objectInputStream.close();
-            inputFileStream.close();
-            }catch(java.io.StreamCorruptedException ex){
-                    WireStartGUI.startGUI.Popup("Plik niekompatybilny lub uszkodzony");
-                    return false;
-                    
-                    }catch(java.lang.NullPointerException e){
-                       return false;
-                    }
-            new WireGUI(loadedGrid.height,loadedGrid.width);
+            try {
+                File selectedFile = WireStartGUI.startGUI.Chooser.getSelectedFile();
+                System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+                FileInputStream inputFileStream = new FileInputStream(selectedFile);
+                ObjectInputStream objectInputStream = new ObjectInputStream(inputFileStream);
+                loadedGrid = (CellGrid) objectInputStream.readObject();
+
+                objectInputStream.close();
+                inputFileStream.close();
+            } catch (java.io.StreamCorruptedException ex) {
+                WireStartGUI.startGUI.Popup("Plik niekompatybilny lub uszkodzony");
+                return false;
+
+            } catch (java.lang.NullPointerException e) {
+                return false;
+            }
+            new WireGUI(loadedGrid.height, loadedGrid.width);
             CellGrid.count++;
             boards.add(loadedGrid);
             System.out.println(CellGrid.count);

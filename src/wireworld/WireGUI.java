@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package wireworld;
 
 import java.awt.BorderLayout;
@@ -21,7 +17,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -81,11 +76,11 @@ public class WireGUI extends JFrame {
         cellPanel = new JPanel();
         cellGridPanel = new JPanel();
         generation = new Generation();
-        nextGen = new JButton("Następna");
+        nextGen = new JButton("Następna Generacja");
         Next = new JButton(">");
         Prev = new JButton("<");
         Stop = new JButton("   Stop    ");
-        Clear = new JButton(" Wyczyść ");
+        Clear = new JButton("Wyczyść planszę");
         Generate = new JButton("Start");
         genNumber = new JLabel("Generacja nr 0");
         numOfGen = new JTextField("30");
@@ -95,7 +90,7 @@ public class WireGUI extends JFrame {
         diagonalWire = new JRadioButton("Kabel2");
         singleCell = new JRadioButton("Komórka");
         Eraser = new JRadioButton("Gumka");
-        Save = new JButton("Zapisz");
+        Save = new JButton("Zapisz Generację");
         ORgate = new JRadioButton("OR gate");
         Orientation = new JCheckBox("Wstaw Pionowo");
         menuPanel.setPreferredSize(new Dimension(200, 800));
@@ -276,7 +271,6 @@ public class WireGUI extends JFrame {
                 JButton source = (JButton) me.getSource();
                 source.setBackground(Color.BLACK);
                 cellgrid.setCell(source.getY() / cellDimension, source.getX() / cellDimension, 0);
-
             }
         }
 
@@ -285,23 +279,7 @@ public class WireGUI extends JFrame {
         }
     }
 
-    public void saveWindow() {
 
-        JFrame fr = new JFrame("Zapisz jako..");
-        fr.setSize(new Dimension(400, 60));
-        JLabel lab = new JLabel(".ser");
-        JTextField box = new JTextField("nazwa", 10);
-        box.setSize(200, 100);
-        JButton zapisz = new JButton("Zapisz");
-        zapisz.setSize(100, 40);
-        JPanel panel = new JPanel();
-        panel.add(zapisz, BorderLayout.SOUTH);
-
-        panel.add(box, BorderLayout.NORTH);
-        fr.add(panel, BorderLayout.CENTER);
-        panel.add(lab, BorderLayout.EAST);
-        fr.setVisible(true);
-    }
 
     private class MenuHandler implements ActionListener {
 
@@ -349,7 +327,6 @@ public class WireGUI extends JFrame {
                 nextGen.setEnabled(true);
 
             }
-
             if (e.getSource() == Generate) {
                 worker = new Worker();
                 try {
@@ -370,10 +347,8 @@ public class WireGUI extends JFrame {
                     worker.execute();
                 }
             }
-
             if (e.getSource()
                     == Save) {
-                saveWindow();
                 GridSaveRead save = new GridSaveRead();
                 try {
                     save.Save();
@@ -381,19 +356,15 @@ public class WireGUI extends JFrame {
                     Logger.getLogger(WireGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
             genNumber.setText(
                     "Generacja nr " + CellGrid.count);
         }
     }
 
-    class Worker extends SwingWorker<Void, Integer> {
-
+    class Worker extends SwingWorker<Void, Void> {
         int counter = 0;
-
         @Override
         protected Void doInBackground() throws Exception {
-
             while (ile-- > 0) {
                 new CellGrid(height, width);
                 generation.Fill();
@@ -404,7 +375,5 @@ public class WireGUI extends JFrame {
             }
             return null;
         }
-
     }
-
 }

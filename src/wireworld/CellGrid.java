@@ -25,7 +25,6 @@ public class CellGrid implements Serializable{
         this.height = height;
         CellGrid.count++;
         boards.add(this);
-        System.out.println(CellGrid.count);
         grid = new Cell[height + 2][width + 2];
         for (int i = 0; i < height + 2; i++) {
             for (int j = 0; j < width + 2; j++) {
