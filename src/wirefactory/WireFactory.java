@@ -25,6 +25,9 @@ public class WireFactory {
         } else if (wireType.equalsIgnoreCase("ORgate")) {
             ORgate g1 = new ORgate();
             g1.put(me, orientation);
+        } else if (wireType.equalsIgnoreCase("exORgate")) {
+            exORgate g2 = new exORgate();
+            g2.put(me, orientation);
         } else {
             SingleCell singleCell = new SingleCell();
             singleCell.put(me, orientation);

@@ -1,4 +1,3 @@
-
 package GUI;
 
 import java.awt.BorderLayout;
@@ -60,6 +59,7 @@ public class WireGUI extends JFrame {
     private final JRadioButton singleCell;
     private final JRadioButton diagonalWire;
     private final JRadioButton horizontalWire;
+    private final JRadioButton exORgate;
     private final JCheckBox Orientation;
     private final JRadioButton ORgate;
     public final JButton Save;
@@ -97,6 +97,7 @@ public class WireGUI extends JFrame {
         Save = new JButton("Zapisz Generację");
         ORgate = new JRadioButton("OR gate");
         Orientation = new JCheckBox("Wstaw Pionowo");
+        exORgate = new JRadioButton("exOR gate");
         menuPanel.setPreferredSize(new Dimension(200, 800));
         cellPanel.setPreferredSize(new Dimension(800, 800));
 
@@ -130,8 +131,10 @@ public class WireGUI extends JFrame {
         menuPanel.add(singleCell);
         menuPanel.add(Eraser);
         menuPanel.add(ORgate);
+        menuPanel.add(exORgate);
         menuPanel.add(Orientation);
         menuPanel.add(Save, BorderLayout.SOUTH);
+
         Save.setPreferredSize(new Dimension(200, 30));
         ButtonGroup group = new ButtonGroup();
         group.add(Diode1);
@@ -141,6 +144,7 @@ public class WireGUI extends JFrame {
         group.add(singleCell);
         group.add(Eraser);
         group.add(ORgate);
+        group.add(exORgate);
         MenuHandler handler = new MenuHandler();
         MouseHandler mousehandler = new MouseHandler();
         Clear.addActionListener(handler);
@@ -151,7 +155,7 @@ public class WireGUI extends JFrame {
         Stop.addActionListener(handler);
         Orientation.addActionListener(handler);
         Save.addActionListener(handler);
-        ORgate.addActionListener(handler);
+
         /* Tworzenie planszy - tablica komorek w GUI */
         CellButton = new JButton[height + 2][width + 2];
         cellGridPanel.setLayout(new GridLayout(height + 2, width + 2));
@@ -255,6 +259,8 @@ public class WireGUI extends JFrame {
                 wireFactory.getWire("diagonalWire", source, orientation);
             } else if (ORgate.isSelected()) {
                 wireFactory.getWire("ORgate", source, orientation);
+            } else if (exORgate.isSelected()) {
+                wireFactory.getWire("exORgate", source, orientation);
             } else {
                 wireFactory.getWire("SingleCell", source, orientation);
             }
@@ -282,8 +288,6 @@ public class WireGUI extends JFrame {
         public void mouseExited(MouseEvent me) {
         }
     }
-
-
 
     private class MenuHandler implements ActionListener {
 
@@ -366,7 +370,9 @@ public class WireGUI extends JFrame {
     }
 
     class Worker extends SwingWorker<Void, Void> {
+
         int counter = 0;
+
         @Override
         protected Void doInBackground() throws Exception {
             while (ile-- > 0) {
