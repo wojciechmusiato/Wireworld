@@ -6,13 +6,16 @@ import javax.swing.JButton;
 import wireworld.CellGrid;
 
 /**
- *
- * @author wojboj
+ * Klasa odpowiedzialna za rysowanie diody na planszy.
+ * 
  */
 public class Diode1 implements ClickWires {
 
-   
-
+    /** Rysuje wskazany element, biorąc za punkt odniesienia współrzędne klikniętnego przycisku.  
+     * 
+     * @param source przysisk, którego współrzędne będą punktem odniesienia przy rysowaniu elementu.
+     * @param orientation jeśli przekazana jest wartość true, element będzie rysowany poziomo, w przeciwnym wypadku pionowo.
+     */
     @Override
     public void put(JButton source, boolean orientation) {
         int i, j;
@@ -70,7 +73,7 @@ public class Diode1 implements ClickWires {
                 WireGUI.wireGUI.setColor(x + 4, y, 0);
                 cellgrid.setCell(y, x + 4, 0);
             }
-        } else {                                                                        //i znowu to samo, tylko pionowo :DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDddddff
+        } else {                                                                        //i znowu to samo, tylko pionowo 
             for (i = 0; i < 10; i++) {
                 if (y + i > h) {
                     WireGUI.wireGUI.setColor(x, y + i - h, 1);

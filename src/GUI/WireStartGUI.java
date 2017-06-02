@@ -16,11 +16,15 @@ import wireworld.CellGrid;
 import wireworld.GridSaveRead;
 
 /**
- *
+ * Odpowiada za wyświetlanie ekranu początkowego Wireworlda oraz zawiera logikę przycisków i pól tekstowych.
+ * 
  * @author wojboj
  */
 public class WireStartGUI extends JFrame {
 
+    /**
+     * 
+     */
     public static WireStartGUI startGUI;
     private final JPanel openPanel;
     private final JButton Generuj;
@@ -31,16 +35,19 @@ public class WireStartGUI extends JFrame {
     private final JLabel Label3;
     private final JButton wczytaj;
 
+    /**
+     * Tworzy graficzny interfejs okna początkowego
+     */
     public WireStartGUI() {
         super("Wireworld");
         startGUI = this;
         openPanel = new JPanel();
         this.add(openPanel);
 
-        heightField = new JTextField("30", 5);
-        widthField = new JTextField("30", 5);
+        heightField = new JTextField("50", 5);
+        widthField = new JTextField("50", 5);
 
-        Label1 = new JLabel("Wybierz szerokość i wysokość planszy:");
+        Label1 = new JLabel("Wybierz szerokość i wysokość planszy (w komórkach):");
         Label2 = new JLabel("Wysokość");
         Label3 = new JLabel("Szerokość");
 
@@ -64,6 +71,10 @@ public class WireStartGUI extends JFrame {
         this.setResizable(false);
     }
 
+    /**
+     * Wyświetla okienko powiadamiające o złych wprowadzonych danych.
+     * @param message wiadomość, którą ma wyświetlić okienko.
+     */
     public void Popup(String message) {
         JFrame frame;
         frame = new JFrame("Info");
@@ -90,7 +101,7 @@ public class WireStartGUI extends JFrame {
                 } else if (h == 0 || w == 0) {
                     Popup("Tak powodzenia z zerową wysokością lub szerokością ");
                 } else if (h < 10 || w < 10) {
-                    Popup("Oba rozmiary planszy powinny mieścić się w zakresie 10-250");
+                    Popup("Oba rozmiary planszy (w komórkach) powinny mieścić się w zakresie 10-250");
                 } else if (h > 9 && h < 251 && w > 9 && w < 251) {
 
                     try {

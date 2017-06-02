@@ -15,16 +15,23 @@ import javax.swing.JFileChooser;
 import static wireworld.CellGrid.boards;
 
 /**
- *
+ * Moduł odpowiadający za zapis i wczytywanie planszy do Wireworlda.
  * @author wojboj
  */
 public class GridSaveRead implements Serializable {
 
-
+    /**
+     *
+     */
     public GridSaveRead() {
 
     }
 
+    /**
+     * Zapisuje aktualną generację do pliku. Zapisywane pliki mają rozszerzenie .ser i są serializowanymi obiektami CellGrid.
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void Save() throws FileNotFoundException, IOException {
         CellGrid cells = (CellGrid) CellGrid.boards.get(CellGrid.count);
         
@@ -46,6 +53,14 @@ public class GridSaveRead implements Serializable {
         }
     }
 
+    /**
+     * Otwiera okno wczytywania pliku oraz inicjuje Wireworlda wraz z konfiguracją z pliku.
+     * @return zwraca wartość false, jeśli nie powiedzie się wczytywanie pliku.
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws Exception
+     */
     public boolean Read() throws FileNotFoundException, IOException, ClassNotFoundException, Exception {
         boolean goodFile = false;
         JFileChooser fileChooser = new JFileChooser();

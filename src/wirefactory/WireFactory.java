@@ -1,14 +1,23 @@
-
 package wirefactory;
 
 import javax.swing.JButton;
 
 /**
+ * Fabryka elementów rysowanych na planszy.
  *
- * @author wojboj
  */
 public class WireFactory {
 
+    /**
+     * Wybiera element, który fabryka ma stworzyć.
+     *
+     * @param wireType reprezentuje typ elementu, który przez fabrykę ma
+     * być stworzony.
+     * @param me przysisk, którego współrzędne będą punktem odniesienia przy
+     * rysowaniu elementu.
+     * @param orientation jeśli przekazana jest wartość true, element będzie
+     * rysowany poziomo, w przeciwnym wypadku pionowo.
+     */
     public void getWire(String wireType, JButton me, boolean orientation) {
         if (wireType.equalsIgnoreCase("Diode1")) {
             Diode1 d1 = new Diode1();

@@ -1,4 +1,3 @@
-
 package wireworld;
 
 import Cell.Head;
@@ -13,14 +12,36 @@ import java.util.ArrayList;
  *
  * @author wojboj
  */
-public class CellGrid implements Serializable{
+public class CellGrid implements Serializable {
 
+    /**
+     * liczba, która wskazuje na numer generacji, która jest aktualnie
+     * wyświetlana na ekranie.
+     */
     public static int count = -1;
-    public static ArrayList boards = new ArrayList<CellGrid>();
-     int height;
-     int width;
-    final Cell grid[][];
 
+    /**
+     * Lista zawierająca generacje plansz.
+     */
+    public static ArrayList boards = new ArrayList<CellGrid>();
+    /**
+     * wysokość planszy (w komórkach)
+     */
+    public int height;
+    /**
+     * szerokość planszy (w komórkach)
+     */
+    public int width;
+    /**
+     * Dwuwymiarowa tablica zawierająca wszystkie komórki z danej generacji.
+     */
+    public final Cell grid[][];
+
+    /**
+     * 
+     * @param height wysokość planszy (w komórkach)
+     * @param width szerokość planszy (w komórkach)
+     */
     public CellGrid(int height, int width) {
         this.width = width;
         this.height = height;
@@ -34,18 +55,20 @@ public class CellGrid implements Serializable{
         }
     }
 
-    public CellGrid getGrid() {
-        return ((CellGrid) CellGrid.boards.get(CellGrid.count));
-    }
 
-    public Cell[][] getCellGrid() {
-        return grid;
-    }
-
+    /**
+     * Zwraca komórkę o zadanych współrzędnych
+     * @param y współrzędna Y
+     * @param x współrzędna X
+     * @return
+     */
     public Cell getCell(int y, int x) {
         return grid[y][x];
     }
 
+    /**
+     * Zeruje listę generacji do zera i ustawia stan wszystkich komórek na 0 - puste.
+     */
     public void clear() {
 
         CellGrid.boards.subList(1, CellGrid.boards.size()).clear();
@@ -58,6 +81,12 @@ public class CellGrid implements Serializable{
 
     }
 
+    /**
+     * Ustawia stan komórki dla danych współrzędnych.
+     * @param y współrzędna Y
+     * @param x współrzędna X
+     * @param v Stan komórki. 0 - pusta, 1 - przewodnik, 2 - ogon elektronu, 3- głowa elektronu.
+     */
     public void setCell(int y, int x, int v) {
         Cell c;
         switch (v) {
@@ -99,22 +128,27 @@ public class CellGrid implements Serializable{
         grid[y][x] = c;
     }
 
+    /**
+     * Zwraca wysokość planszy (w komórkach).
+     * @return wysokość planszy (w komórkach).
+     */
     public int getHeights() {
         return height;
     }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
+    /**
+     * Zwraca szerokość planszy (w komórkach)
+     * @return szerokość planszy (w komórkach)
+     */
     public int getWidths() {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
+ 
 
+    /**
+     * Uaktualnia planszę
+     * @param basicgrid plansza, na podstawie której będzie tworzona nowa.
+     */
     public void Update(CellGrid basicgrid) {
         for (int i = 1; i < height + 1; i++) {
             for (int j = 1; j < width + 1; j++) {
@@ -123,6 +157,12 @@ public class CellGrid implements Serializable{
         }
     }
 
+    /**
+     * Liczy sąsiadów komórki "Głowa elektronu"
+     * @param y współrzędna Y
+     * @param x współrzędna X
+     * @return liczba sąsiadów głowy elektronu
+     */
     public int countHeadNeighbours(int y, int x) {
         int counter = 0;
         if (getCell(y, x).getValue() == 3) {
@@ -138,7 +178,5 @@ public class CellGrid implements Serializable{
         return counter;
 
     }
-
-    
 
 }

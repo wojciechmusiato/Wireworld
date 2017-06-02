@@ -2,16 +2,21 @@
 package wireworld;
 
 /**
- *
+ * Generuje planszę zawierającą koleja generację.
  * @author mihasz
  */
 public class Generation {
 
+    /**
+     *
+     */
     public Generation() {
 
     }
 
-
+    /**
+     * Wypełnia warstwę komórek otaczającą planszę, by można było wyznaczyć sąsiedztwo krańcowych komórek.
+     */
     public void Fill() {
         CellGrid basicgrid =  (CellGrid) CellGrid.boards.get(CellGrid.count-1);
         int h = basicgrid.getHeights();
@@ -31,6 +36,10 @@ public class Generation {
         }
     }
 
+    /**
+     * Oblicza konfigurację komórek w kolejnej generacji.
+     * @return nextGrid - wygenerowana plansza
+     */
     public CellGrid Generate() {
         CellGrid nextGrid =  (CellGrid) CellGrid.boards.get(CellGrid.count);
         CellGrid basicgrid =  (CellGrid) CellGrid.boards.get(CellGrid.count-1);

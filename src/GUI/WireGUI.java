@@ -28,14 +28,25 @@ import wirefactory.WireFactory;
 
 /**
  *
- * @author wojboj
+ * Klasa rysująca okno z planszą oraz odpowiedzialna za interakcję z
+ * użytkownikiem.
  */
 public class WireGUI extends JFrame {
 
+    /**
+     * Instancja statyczna obiektu klasy WireGUI
+     */
     public static WireGUI wireGUI;
+    /**
+     * liczba oznaczająca ilość generacji, którą chcemy automatycznie stworzyć.
+     */
     int ile;
+    /**
+     * rozmiar komórki
+     */
     public int cellDimension = 14;
     public final int width, height;
+
     private final JPanel menuPanel;
     private final JPanel cellPanel;
     private final Generation generation;
@@ -45,6 +56,10 @@ public class WireGUI extends JFrame {
     private final JButton Prev;
     private final JButton Clear;
     private final JButton Generate;
+
+    /**
+     * Plansza przycisków, które reprezentują planszę. Dookoła planszy istnieje warstwa przycisków - istnieją one, by można było ustalić sąsiedztwo krańcowych komórek.
+     */
     public final JButton CellButton[][];
     private final JPanel cellGridPanel;
     private final int cellPanelSizeY = 3600;
@@ -62,8 +77,19 @@ public class WireGUI extends JFrame {
     private final JRadioButton exORgate;
     private final JCheckBox Orientation;
     private final JRadioButton ORgate;
+
+    /**
+     * Przycisk zapisujący generację do pliku
+     */
     public final JButton Save;
 
+    /**
+     * Tworzy interfejs graficzny WireWorld
+     *
+     * @param height wysokość planszy (w komórkach)
+     * @param width szerokość planszy (w komórkach)
+     * @throws Exception
+     */
     public WireGUI(int height, int width) throws Exception {
         super("Wireworld!");
 
@@ -156,7 +182,7 @@ public class WireGUI extends JFrame {
         Orientation.addActionListener(handler);
         Save.addActionListener(handler);
 
-        /* Tworzenie planszy - tablica komorek w GUI */
+        /* Tworzenie planszy (w komórkach) - tablica komorek w GUI */
         CellButton = new JButton[height + 2][width + 2];
         cellGridPanel.setLayout(new GridLayout(height + 2, width + 2));
         for (int i = 0; i < height + 2; i++) {
@@ -186,6 +212,9 @@ public class WireGUI extends JFrame {
         this.setResizable(true);
     }
 
+    /**
+     * Uaktualnia planszę na podstawie aktualnej generacji.
+     */
     public void updateCellGridPanel() {
         CellGrid cellgrid = (CellGrid) CellGrid.boards.get(CellGrid.count);
         int v = 0;
@@ -213,6 +242,13 @@ public class WireGUI extends JFrame {
         }
     }
 
+    /**
+     * Ustawia kolor przycisku
+     *
+     * @param x współrzędna x przycisku
+     * @param y współrzędna y przycisku
+     * @param v numer stanu komórki
+     */
     public void setColor(int x, int y, int v) {
         switch (v) {
             case 0:
@@ -230,11 +266,17 @@ public class WireGUI extends JFrame {
         }
     }
 
+    /**
+     * Listener myszki
+     */
     private class MouseHandler implements MouseListener {
 
         WireFactory wireFactory = new WireFactory();
         public boolean orientation = true;
 
+        /**
+         * Metoda do listenera odpowiadająca za interakcję przy edycji planszy (w komórkach)
+         */
         @Override
         public void mouseClicked(MouseEvent me) {
             JButton source = (JButton) me.getSource();
@@ -274,6 +316,12 @@ public class WireGUI extends JFrame {
         public void mouseReleased(MouseEvent me) {
         }
 
+        /**
+         * Ustawia kolor komórki na czarny i jej wartość na pustą, jeśli
+         * zaznaczony jest przycisk Eraser.
+         *
+         * @param me przycisk, na który wskazuje mysz
+         */
         @Override
         public void mouseEntered(MouseEvent me) {
             if (Eraser.isSelected()) {
@@ -289,11 +337,24 @@ public class WireGUI extends JFrame {
         }
     }
 
+    /**
+     * Listener przycisków menu
+     */
     private class MenuHandler implements ActionListener {
 
+        /**
+         * SwingWorker, obsługuje wątek
+         */
         private Worker worker;
+        /**
+         * Ustawiony na true, jeśli program nie generuje automatycznie kolejnych
+         * stanów planszy (w komórkach). W przeciwnym wypadku ustawiony na false.
+         */
         private boolean startstop = true;
 
+        /**
+         * Metoda do listenera odpowiadająca za interakcję z panelem menu
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -369,9 +430,10 @@ public class WireGUI extends JFrame {
         }
     }
 
+    /**
+     * Klasa tworząca wątki do automatycznej generacji nowych generacji.
+     */
     class Worker extends SwingWorker<Void, Void> {
-
-        int counter = 0;
 
         @Override
         protected Void doInBackground() throws Exception {

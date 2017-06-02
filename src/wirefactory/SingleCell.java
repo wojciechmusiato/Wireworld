@@ -7,11 +7,15 @@ import javax.swing.JButton;
 import wireworld.CellGrid;
 
 /**
- *
- * @author wojboj
+ * Klasa odpowiedzialna za rysowanie i zmienianie stanu komórki na planszy.
+ * 
  */
 class SingleCell implements ClickWires {
-
+    /** Rysuje wskazany element, biorąc za punkt odniesienia współrzędne klikniętnego przycisku.  
+     * 
+     * @param source przysisk, którego współrzędne będą punktem odniesienia przy rysowaniu elementu.
+     * @param orientation jeśli przekazana jest wartość true, element będzie rysowany poziomo, w przeciwnym wypadku pionowo.
+     */
     @Override
     public void put(JButton source, boolean orientation) {
         int i;
