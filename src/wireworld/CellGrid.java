@@ -60,7 +60,7 @@ public class CellGrid implements Serializable {
      * Zwraca komórkę o zadanych współrzędnych
      * @param y współrzędna Y
      * @param x współrzędna X
-     * @return
+     * @return Komórka o podanych współrzędnych
      */
     public Cell getCell(int y, int x) {
         return grid[y][x];

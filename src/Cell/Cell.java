@@ -71,7 +71,6 @@ public class Cell implements Serializable{
 
     /**
      * Ustawia współrzędną Y komórki.
-     * @return współrzędna Y komórki.
      */
     public void setY(int y) {
         this.y = y;
@@ -79,7 +78,6 @@ public class Cell implements Serializable{
 
     /**
      * Ustawia współrzędną X komórki.
-     * @return współrzędna X komórki.
      */
     public void setX(int x) {
         this.x = x;

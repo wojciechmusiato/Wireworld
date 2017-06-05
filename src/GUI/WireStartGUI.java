@@ -47,7 +47,7 @@ public class WireStartGUI extends JFrame {
         heightField = new JTextField("50", 5);
         widthField = new JTextField("50", 5);
 
-        Label1 = new JLabel("Wybierz szerokość i wysokość planszy (w komórkach):");
+        Label1 = new JLabel("Wybierz szerokość i wysokość planszy:");
         Label2 = new JLabel("Wysokość");
         Label3 = new JLabel("Szerokość");
 
