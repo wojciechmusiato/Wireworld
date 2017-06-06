@@ -387,7 +387,6 @@ public class WireGUI extends JFrame {
                     CellGrid.count--;
                     wireGUI.updateCellGridPanel();
                 }
-                System.out.println(CellGrid.count);
             }
 
             if (e.getSource() == Next) {
