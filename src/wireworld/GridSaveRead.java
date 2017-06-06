@@ -34,17 +34,17 @@ public class GridSaveRead implements Serializable {
      */
     public void Save() throws FileNotFoundException, IOException {
         CellGrid cells = (CellGrid) CellGrid.boards.get(CellGrid.count);
-        
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Zapisz obecną generację");
-        File f = new File(new File(".").getCanonicalPath());
+        File f = new File(new File("./cellgrids").getCanonicalPath());
         fileChooser.setCurrentDirectory(f);
+        
 
         int userSelection = fileChooser.showSaveDialog(null);
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File saveFile = fileChooser.getSelectedFile();
-            FileOutputStream fout = new FileOutputStream(saveFile + ".ser");
+            FileOutputStream fout = new FileOutputStream(saveFile);
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(cells);
             oos.close();
@@ -64,7 +64,7 @@ public class GridSaveRead implements Serializable {
     public boolean Read() throws FileNotFoundException, IOException, ClassNotFoundException, Exception {
         boolean goodFile = false;
         JFileChooser fileChooser = new JFileChooser();
-        File f = new File(new File(".").getCanonicalPath());
+        File f = new File(new File("./cellgrids").getCanonicalPath());
         fileChooser.setCurrentDirectory(f);
         int result = fileChooser.showOpenDialog(null);
         if (result == fileChooser.APPROVE_OPTION) {
