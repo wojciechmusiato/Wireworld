@@ -9,8 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- *
- * @author wojboj
+ * Klasa odpowiedzialna za przechowywanie planszy Wireworld
  */
 public class CellGrid implements Serializable {
 

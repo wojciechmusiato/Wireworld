@@ -19,8 +19,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import wireworld.CellGrid;
 import wireworld.Generation;
 import wireworld.GridSaveRead;
@@ -42,6 +45,10 @@ public class WireGUI extends JFrame {
      */
     int ile;
     /**
+     * okres zmiany generacji
+     */
+    private int time=1000;
+    /**
      * rozmiar komórki
      */
     public int cellDimension = 14;
@@ -51,22 +58,25 @@ public class WireGUI extends JFrame {
     private final JPanel cellPanel;
     private final Generation generation;
     private final JScrollPane scrollPane;
-    private final JButton Start = new JButton();
     private final JButton Next;
     private final JButton Prev;
     private final JButton Clear;
     private final JButton Generate;
 
     /**
-     * Plansza przycisków, które reprezentują planszę. Dookoła planszy istnieje warstwa przycisków - istnieją one, by można było ustalić sąsiedztwo krańcowych komórek.
+     * Plansza przycisków, które reprezentują planszę. Dookoła planszy istnieje
+     * warstwa przycisków - istnieją one, by można było ustalić sąsiedztwo
+     * krańcowych komórek.
      */
     public final JButton CellButton[][];
     private final JPanel cellGridPanel;
     private final int cellPanelSizeY = 3600;
     private final int cellPanelSizeX = 3600;
     private final JTextField numOfGen;
+    private final JLabel JSliderHeader;
     private final JLabel genNumber;
     private final JButton nextGen;
+    private final JSlider timeSlider;
     private final JButton Stop;
     private final JRadioButton Diode1;
     private final JRadioButton Eraser;
@@ -116,6 +126,8 @@ public class WireGUI extends JFrame {
         numOfGen = new JTextField("30");
         Diode1 = new JRadioButton("Dioda1");
         Diode2 = new JRadioButton("Dioda2");
+        timeSlider = new JSlider(JSlider.HORIZONTAL, 300, 2000, time);
+        JSliderHeader = new JLabel("Okres generowania");
         horizontalWire = new JRadioButton("Kabel1");
         diagonalWire = new JRadioButton("Kabel2");
         singleCell = new JRadioButton("Komórka");
@@ -160,7 +172,11 @@ public class WireGUI extends JFrame {
         menuPanel.add(exORgate);
         menuPanel.add(Orientation);
         menuPanel.add(Save, BorderLayout.SOUTH);
+        menuPanel.add(JSliderHeader);
+        menuPanel.add(timeSlider);
 
+        timeSlider.addChangeListener(new SliderListener());
+        
         Save.setPreferredSize(new Dimension(200, 30));
         ButtonGroup group = new ButtonGroup();
         group.add(Diode1);
@@ -275,7 +291,8 @@ public class WireGUI extends JFrame {
         public boolean orientation = true;
 
         /**
-         * Metoda do listenera odpowiadająca za interakcję przy edycji planszy (w komórkach)
+         * Metoda do listenera odpowiadająca za interakcję przy edycji planszy
+         * (w komórkach)
          */
         @Override
         public void mouseClicked(MouseEvent me) {
@@ -348,7 +365,8 @@ public class WireGUI extends JFrame {
         private Worker worker;
         /**
          * Ustawiony na true, jeśli program nie generuje automatycznie kolejnych
-         * stanów planszy (w komórkach). W przeciwnym wypadku ustawiony na false.
+         * stanów planszy (w komórkach). W przeciwnym wypadku ustawiony na
+         * false.
          */
         private boolean startstop = true;
 
@@ -429,6 +447,21 @@ public class WireGUI extends JFrame {
                     "Generacja nr " + CellGrid.count);
         }
     }
+    /**
+     * Klasa odpowiedzialna za suwak zmiany okresu automatyczego generowania
+     * kolejnych planszy
+     */
+     class SliderListener implements ChangeListener {
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            JSlider source = (JSlider) e.getSource();
+            if (!source.getValueIsAdjusting()) {
+                time = (int) source.getValue();
+              
+            }
+        }
+    }
 
     /**
      * Klasa tworząca wątki do automatycznej generacji nowych generacji.
@@ -443,7 +476,8 @@ public class WireGUI extends JFrame {
                 generation.Generate();
                 wireGUI.updateCellGridPanel();
                 genNumber.setText("Generacja nr " + CellGrid.count);
-                Thread.sleep(600);
+                Thread.sleep(time);
+             
             }
             return null;
         }
